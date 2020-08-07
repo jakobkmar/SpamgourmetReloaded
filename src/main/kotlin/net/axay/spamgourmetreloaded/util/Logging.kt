@@ -21,5 +21,5 @@ fun logInfoMultiline(vararg messageLines: Any?) {
             }
         }
     }
-    stream.println(builder.toString())
+    println(builder.toString())
 }
