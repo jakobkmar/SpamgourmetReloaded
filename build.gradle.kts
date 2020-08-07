@@ -22,9 +22,12 @@ dependencies {
     // MONGODB
     implementation("org.litote.kmongo", "kmongo", "4.0.3")
 
-    // MAILING
+    // SIMPLE JAVA MAIL
     implementation("org.simplejavamail", "simple-java-mail", "6.4.1")
     implementation("org.simplejavamail", "batch-module", "6.4.1")
+    implementation("org.simplejavamail", "smime-module", "6.4.1")
+
+    // SUBETHA SMTP
     implementation("org.subethamail", "subethasmtp", "3.1.7")
 
     // LOGGER
