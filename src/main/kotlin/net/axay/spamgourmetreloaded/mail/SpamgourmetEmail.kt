@@ -27,12 +27,13 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                 val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
                     SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS -> SpamgourmetSpamEmail(mimeMessage)
                     SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS -> SpamgourmetAnswerEmail(mimeMessage)
-                    SpamgourmetAddressType.SPAMGOURMET_BOUNCE_ADDRESS -> SpamgourmetBounceEmail(mimeMessage)
+                    SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS -> SpamgourmetSpamBounceEmail(mimeMessage)
+                    SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
                     else -> null
                 }
                 try {
                     spamgourmetEmail?.process(recipient)
-                } catch (exc: Exception) {
+                } catch (exc: Throwable) {
                     logInfo("An error occured while processing an email:", System.err)
                     exc.printStackTrace()
                 }
@@ -50,8 +51,9 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 
         val username = recipient.firstPartValues[2]
 
-        // load user data or return
+        // load user data or return // TODO
         val userData = Manager.dataManager.userCollection.findOne(UserData::username eq username) ?: return
+        //val userData = UserData("blue", UserSettings(true), "bluefireolymp@gmail.com")
 
         // load user address or create new one
         val userAddressData = Manager.dataManager.userAddressCollection.findOne(UserAddressData::address eq recipient.firstPart)
@@ -70,6 +72,7 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
         val emailBuilder = EmailBuilder.copying(email)
 
         emailBuilder
+                .clearRecipients()
                 .withReplyTo("answeraddress") // TODO set set generated reply address here
                 .withBounceTo("spam-bounceaddress") // TODO set generated bounce address here
                 .to(userData.realAddress)
@@ -108,10 +111,22 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
     }
 }
 
-class SpamgourmetBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
     override fun process(recipient: SpamgourmetAddress) {
 
-        // HANDLE BOUNCE
+        // HANDLE SPAM BOUNCE
+
+
+
+    }
+}
+
+class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+    override fun process(recipient: SpamgourmetAddress) {
+
+        // HANDLE ANSWER BOUNCE
+
+
 
     }
 }

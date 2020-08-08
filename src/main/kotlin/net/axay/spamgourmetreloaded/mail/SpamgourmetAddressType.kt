@@ -11,7 +11,8 @@ enum class SpamgourmetAddressType {
     // the address is some kind of address which belongs to the system
     SPAMGOURMET_USER_ADDRESS,
     SPAMGOURMET_ANSWER_ADDRESS,
-    SPAMGOURMET_BOUNCE_ADDRESS,
+    SPAMGOURMET_SPAM_BOUNCE_ADDRESS,
+    SPAMGOURMET_ANSWER_BOUNCE_ADDRESS,
 
     // the address is invalid
     INVALID, UNKNOWN;
@@ -28,8 +29,8 @@ enum class SpamgourmetAddressType {
 
             val senderType = if (sender != null && sender.isValid) {
                 when (recipientType) {
-                    SPAMGOURMET_USER_ADDRESS -> SPAMMER
-                    SPAMGOURMET_ANSWER_ADDRESS, SPAMGOURMET_BOUNCE_ADDRESS -> USER
+                    SPAMGOURMET_USER_ADDRESS, SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SPAMMER
+                    SPAMGOURMET_ANSWER_ADDRESS, SPAMGOURMET_SPAM_BOUNCE_ADDRESS -> USER
                     else -> UNKNOWN
                 }
             } else INVALID
