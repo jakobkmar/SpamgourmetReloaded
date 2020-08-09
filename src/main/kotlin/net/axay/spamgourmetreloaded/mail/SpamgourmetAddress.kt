@@ -23,7 +23,8 @@ class SpamgourmetAddress(val fullAddress: String) {
             2 -> {
                 when(firstPartValues.last()) {
                     "answer" -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS
-                    "bounce" -> SpamgourmetAddressType.SPAMGOURMET_BOUNCE_ADDRESS
+                    "bounce-s" -> SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS
+                    "bounce-a" -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS
                     else -> SpamgourmetAddressType.UNKNOWN
                 }
             }
