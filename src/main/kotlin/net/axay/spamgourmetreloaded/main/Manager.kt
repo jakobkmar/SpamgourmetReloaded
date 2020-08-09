@@ -10,6 +10,7 @@ import net.axay.spamgourmetreloaded.mail.MailSender
 import net.axay.spamgourmetreloaded.mail.SpamgourmetMailListener
 import net.axay.spamgourmetreloaded.util.logInfo
 import net.axay.spamgourmetreloaded.util.logInfoMultiline
+import org.simplejavamail.converter.EmailConverter
 import org.simplejavamail.email.EmailBuilder
 import org.subethamail.smtp.server.SMTPServer
 import javax.mail.internet.MimeMessage
@@ -46,19 +47,19 @@ object Manager {
 
             mailHandler.register(object : MailListener {
                 override fun onReceive(envelopeFrom: String, recipients: List<String>, mimeMessage: MimeMessage) {
-                    logInfoMultiline("sender: $envelopeFrom", "receiver: $recipients", "$mimeMessage")
+                    logInfoMultiline("sender: $envelopeFrom", "receiver: $recipients", EmailConverter.mimeMessageToEmail(mimeMessage))
                 }
             })
             mailHandler.register(SpamgourmetMailListener)
 
             logInfo("Program started!")
 
-            MailSender.sendMail(
+            MailSender.sendLocalEmail(
                 EmailBuilder.startingBlank()
                     .from("bluefiredata@gmail.com")
-                    .to("insta.6.blue@axay.net")
+                    .to("gram.40.blue@axay.net")
                     .withSubject("test mail")
-                    .withHTMLText("<img src='cid:wink1'><b>We should meet up!</b><img src='cid:wink2'>")
+                    .withHTMLText(ValueHolder.TEST_HTML)
                     .withPlainText("Please view this email in a modern email client!")
                     .buildEmail()
             )
