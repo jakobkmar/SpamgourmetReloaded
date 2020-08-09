@@ -1,7 +1,5 @@
 package net.axay.spamgourmetreloaded.mail
 
-import org.subethamail.smtp.util.EmailUtils
-
 enum class SpamgourmetAddressType {
 
     // the address does not belong to the spamgourmet system
