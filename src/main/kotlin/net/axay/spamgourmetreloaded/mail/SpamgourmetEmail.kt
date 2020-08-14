@@ -42,6 +42,8 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
 }
 
+// TODO when user deletes its account -> delete all addresses of him
+
 class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
     override fun process(recipient: SpamgourmetAddress) {
 
@@ -49,38 +51,54 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 
         val username = recipient.firstPartValues[2]
 
+        // only forward if from address is given
+        val fromAddress = email.fromRecipient?.address ?: return
+
         // load user data or return
         val userData = DatabaseQueries.getUserDataFromUsername(username) ?: return
 
         // load user address or create new one
         val userAddressData = Manager.dataManager.userAddressCollection.findOne(UserAddressData::address eq recipient.firstPart)
-                ?: UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt()).apply {
+                ?: UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toIntOrNull() ?: return).apply {
                     Manager.dataManager.userAddressCollection.insertOne(this) }
 
         // check uses left
         if (userAddressData.usesLeft <= 0) return
 
         // check trusted senders
-        if (userAddressData.ifOnlyTrusted == true) {
-            val fromAddress = email.fromRecipient?.address ?: return
+        if (userAddressData.ifOnlyTrusted == true)
             if (userAddressData.trustedSenders?.contains(fromAddress) != true) return
-        }
 
         // reduce uses left
         Manager.dataManager.userAddressCollection.updateOne(
                 UserAddressData::address eq recipient.firstPart,
-                setValue(UserAddressData::usesLeft, userAddressData.usesLeft - 1))
+                setValue(UserAddressData::usesLeft, userAddressData.usesLeft - 1)
+        )
 
         // load forward recipient
         val forwardToAddress = userAddressData.alternativeForwardTo ?: userData.realAddress
+
+        // load answer address
+        val answerAddress = SpamgourmetAddress(
+                SpamgourmetAddressGenerator.generateAnswerAddress(
+                        username, recipient.firstPart, fromAddress, userAddressData.alternativeForwardTo
+                ),
+                true
+        ).fullAddress
+
+        // load bounce address
+        val bounceAddress = SpamgourmetAddress(
+                SpamgourmetAddressGenerator.generateSpamBounceAddress(username, userAddressData.address, forwardToAddress),
+                true
+        ).fullAddress
 
         // create forward email
         val emailBuilder = EmailBuilder.copying(email)
 
         emailBuilder
                 .clearRecipients()
-                .withReplyTo("answeraddress") // TODO set set generated reply address here
-                .withBounceTo("spam-bounceaddress") // TODO set generated bounce address here
+                .withReplyTo(answerAddress)
+                .withBounceTo(bounceAddress)
                 .to(forwardToAddress)
 
         // forward mail
@@ -95,26 +113,40 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
         // ANSWER TO SPAMMER
 
         // load answer address or return
-        val answerAddressData = Manager.dataManager.answerAddressCollection.findOne(AnswerAddressData::address eq recipient.firstPart)
+        val answerAddressData = Manager.dataManager.answerAddressCollection.findOne(AnswerAddressData::address eq recipient.firstPartValues[0])
                 ?: return
 
         // load user data
         val userData = DatabaseQueries.getUserDataFromUsername(answerAddressData.forUser) ?: return
-        // TODO delete answer address if user does not exists anymore
 
         // if locked answer address - check if it comes from the correct address (not safe)
-        if (userData.settings.lockedAnswerAddress == true) {
-            if (email.fromRecipient?.address != userData.realAddress) return
+        if (userData.settings.lockedAnswerAddresses) {
+
+            // load from address or return
+            val fromAddress = email.fromRecipient?.address ?: return
+
+            if (!(
+                fromAddress == userData.realAddress ||
+                answerAddressData.extraAllowedUserAddresses?.contains(fromAddress) == true
+            )) return
+
         }
+
+        val bounceAddress = SpamgourmetAddress(
+                SpamgourmetAddressGenerator.generateAnswerBounceAddress(answerAddressData.forUser, answerAddressData.answerToAddress),
+                true
+        ).fullAddress
+
+        val answerAsAddress = SpamgourmetAddress(answerAddressData.answerAsAddress, true).fullAddress
 
         // create answer email
         val emailBuilder = EmailBuilder.copying(email)
 
         emailBuilder
                 .clearSenderData()
-                .from(answerAddressData.answerAsAddress)
-                .withReplyTo(answerAddressData.answerAsAddress)
-                .withBounceTo("answer-bounceaddress") // TODO set generated bounce address here
+                .from(answerAsAddress)
+                .withReplyTo(answerAsAddress)
+                .withBounceTo(bounceAddress)
                 .to(answerAddressData.answerToAddress)
 
         // send answer mail
@@ -128,20 +160,25 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
 
         // HANDLE SPAM BOUNCE
 
+        val fromAddress = email.fromRecipient?.address ?: return
+
         // load bounce address data
-        val bounceAddressData = Manager.dataManager.spamBounceAddressCollection.findOne(BounceAddressData::address eq recipient.firstPart)
+        val bounceAddressData = Manager.dataManager.spamBounceAddressCollection.findOne(BounceAddressData::address eq recipient.firstPartValues[0])
                 ?: return
 
-        // load user data
-        val userData = DatabaseQueries.getUserDataFromUsername(bounceAddressData.informUser) ?: return // TODO delete this address
-
         // check if sender address is valid (not safe)
-        if (email.fromRecipient?.address != userData.realAddress) return
+        bounceAddressData.restrictedFrom?.let {
+            if (fromAddress != it) return
+        }
 
         // save bounce to database
         Manager.dataManager.userCollection.updateOne(
-                UserData::username eq bounceAddressData.informUser,                       // TODO
-                push(UserData::bounceData, BounceData(Instant.now(), email.fromRecipient?.address.toString()))
+                UserData::username eq bounceAddressData.informUser,
+                push(UserData::bounceData, BounceData(
+                        Instant.now(),
+                        fromAddress,
+                        bounceAddressData.forAddress
+                ))
         )
 
     }
@@ -152,24 +189,30 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
 
         // HANDLE ANSWER BOUNCE
 
+        // load from address or return
+        val fromAddress = email.fromRecipient?.address ?: return
+
         // load bounce address data
-        val bounceAddressData = Manager.dataManager.answerBounceAddressCollection.findOne(BounceAddressData::address eq recipient.firstPart)
+        val bounceAddressData = Manager.dataManager.answerBounceAddressCollection.findOne(BounceAddressData::address eq recipient.firstPartValues[0])
                 ?: return
 
         // load user data
-        val userData = DatabaseQueries.getUserDataFromUsername(bounceAddressData.informUser) ?: return // TODO delete this address
+        val userData = DatabaseQueries.getUserDataFromUsername(bounceAddressData.informUser) ?: return
 
         // check if sender address is valid (not safe)
-        if (email.fromRecipient?.address != userData.realAddress) return
+        if (fromAddress != bounceAddressData.forAddress) return
 
         // inform user about bounce to answer
 
-        // create info about bounce
+        // create mail info about bounce
         val bounceInformationEmail = EmailBuilder.startingBlank()
-                .from("bounce-informer@" + Manager.configManager.mainConfig.addressDomain)
+                .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
                 .to(userData.realAddress)
+                .withBounceTo("") // TODO check if this means empty
+                // TODO maybe use clearBounceTo()
+                // find out how to send message with empty envelope from
                 .withSubject("Bounce information")
-                .withPlainText("Your answer to ${recipient.fullAddress} got \"answered\" with a bounce.")
+                .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
                 .buildEmail()
 
         MailSender.sendMail(bounceInformationEmail)
