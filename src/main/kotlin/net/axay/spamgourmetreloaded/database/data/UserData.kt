@@ -13,10 +13,11 @@ data class UserData(
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class UserSettings(
-    val lockedAnswerAddress: Boolean?
+    val lockedAnswerAddresses: Boolean = true
 )
 
 data class BounceData(
     val time: Instant,
-    val bounceFrom: String
+    val bounceFrom: String?,
+    val bounceTo: String
 )
