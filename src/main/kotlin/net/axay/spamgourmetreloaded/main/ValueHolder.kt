@@ -10,6 +10,10 @@ object ValueHolder {
 
     val DEFAULT_MAIL_SESSION: Session = Session.getDefaultInstance(Properties())
 
+    const val ANSWER_ADDRESS_KEY = "answer"
+    const val SPAM_BOUNCE_ADDRESS_KEY = "bounce-s"
+    const val ANSWER_BOUNCE_ADDRESS_KEY = "bounce-a"
+
     const val TEST_HTML = """
 <h1>Lorem ipsum dolor sit amet consectetuer adipiscing 
 elit</h1>
