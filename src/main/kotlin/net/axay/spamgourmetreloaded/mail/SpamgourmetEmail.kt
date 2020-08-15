@@ -144,6 +144,7 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
 
         emailBuilder
                 .clearSenderData()
+                .clearRecipients()
                 .from(answerAsAddress)
                 .withReplyTo(answerAsAddress)
                 .withBounceTo(bounceAddress)
