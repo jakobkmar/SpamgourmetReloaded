@@ -8,7 +8,7 @@ data class UserData(
     val username: String,
     val settings: UserSettings,
     val realAddress: String,
-    val bounceData: Collection<BounceData>
+    val bounceData: Collection<BounceData>?
 )
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
