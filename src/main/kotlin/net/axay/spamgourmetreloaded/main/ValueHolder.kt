@@ -14,6 +14,8 @@ object ValueHolder {
     const val SPAM_BOUNCE_ADDRESS_KEY = "bounce-s"
     const val ANSWER_BOUNCE_ADDRESS_KEY = "bounce-a"
 
+    const val NO_REPLY_ADDRESS_KEY = "no-reply"
+
     const val TEST_HTML = """
 <h1>Lorem ipsum dolor sit amet consectetuer adipiscing 
 elit</h1>
