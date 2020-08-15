@@ -9,7 +9,7 @@ import org.subethamail.smtp.util.EmailUtils
 class SpamgourmetAddress(val fullAddress: String) {
 
     constructor(address: String, isOnlyFirstPart: Boolean) : this(kotlin.run {
-        if (isOnlyFirstPart) address else "$address@${Manager.configManager.mainConfig.domainConfig.mainAddressDomain}"
+        if (!isOnlyFirstPart) address else "$address@${Manager.configManager.mainConfig.domainConfig.mainAddressDomain}"
     })
 
     val splitParts by lazy { fullAddress.split('@') }
