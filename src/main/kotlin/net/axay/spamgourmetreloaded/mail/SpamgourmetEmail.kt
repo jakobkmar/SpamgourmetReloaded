@@ -3,8 +3,12 @@ package net.axay.spamgourmetreloaded.mail
 import net.axay.spamgourmetreloaded.database.DatabaseQueries
 import net.axay.spamgourmetreloaded.database.data.*
 import net.axay.spamgourmetreloaded.main.Manager
+import net.axay.spamgourmetreloaded.main.ValueHolder
 import net.axay.spamgourmetreloaded.util.logInfo
-import org.litote.kmongo.*
+import org.litote.kmongo.eq
+import org.litote.kmongo.findOne
+import org.litote.kmongo.push
+import org.litote.kmongo.setValue
 import org.simplejavamail.api.email.EmailPopulatingBuilder
 import org.simplejavamail.converter.EmailConverter
 import org.simplejavamail.email.EmailBuilder
@@ -210,6 +214,7 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
                 .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
                 .to(userData.realAddress)
                 .withBounceTo("<>") // TODO prove that this means empty
+                .withReplyTo(SpamgourmetAddress(ValueHolder.NO_REPLY_ADDRESS_KEY, true).fullAddress)
                 .withSubject("Bounce information")
                 .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
                 .buildEmail()
