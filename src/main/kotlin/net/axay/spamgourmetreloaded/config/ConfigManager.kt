@@ -4,10 +4,6 @@ import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.gson.GsonConfigManager
 import java.io.File
 
-fun main() {
-    ConfigManager()
-}
-
 class ConfigManager {
 
     private val configFolder = File("./configs/")
