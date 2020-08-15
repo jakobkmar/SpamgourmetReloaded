@@ -208,9 +208,7 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
         val bounceInformationEmail = EmailBuilder.startingBlank()
                 .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
                 .to(userData.realAddress)
-                .withBounceTo("") // TODO check if this means empty
-                // TODO maybe use clearBounceTo()
-                // find out how to send message with empty envelope from
+                .withBounceTo("<>") // TODO prove that this means empty
                 .withSubject("Bounce information")
                 .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
                 .buildEmail()
