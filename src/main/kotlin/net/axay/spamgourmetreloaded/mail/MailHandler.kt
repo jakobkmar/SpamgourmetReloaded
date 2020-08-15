@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage
 
 class MailHandler : MessageHandlerFactory {
 
-    private val registeredListeners = HashSet<MailListener>()
+    private val registeredListeners = LinkedHashSet<MailListener>()
 
     override fun create(context: MessageContext): MessageHandler {
 
