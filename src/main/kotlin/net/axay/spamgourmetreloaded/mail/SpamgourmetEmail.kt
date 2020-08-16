@@ -13,6 +13,7 @@ import org.simplejavamail.api.email.EmailPopulatingBuilder
 import org.simplejavamail.converter.EmailConverter
 import org.simplejavamail.email.EmailBuilder
 import java.time.Instant
+import java.util.concurrent.Executors
 import javax.mail.internet.MimeMessage
 
 abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
@@ -22,6 +23,8 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
     abstract fun process(recipient: SpamgourmetAddress)
 
     companion object {
+
+        private val executorService = Executors.newSingleThreadExecutor()
 
         fun process(recipients: List<String>, mimeMessage: MimeMessage) {
             recipients.forEach {
@@ -33,11 +36,13 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                     SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
                     else -> null
                 }
-                try {
-                    spamgourmetEmail?.process(recipient)
-                } catch (exc: Throwable) {
-                    logInfo("An error occured while processing an email:", System.err)
-                    exc.printStackTrace()
+                executorService.execute {
+                    try {
+                        spamgourmetEmail?.process(recipient)
+                    } catch (exc: Throwable) {
+                        logInfo("An error occured while processing an email:", System.err)
+                        exc.printStackTrace()
+                    }
                 }
             }
         }
@@ -213,7 +218,7 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
         val bounceInformationEmail = EmailBuilder.startingBlank()
                 .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
                 .to(userData.realAddress)
-                .withBounceTo("<>") // TODO prove that this means empty
+                .withBounceTo("<>")
                 .withReplyTo(SpamgourmetAddress(ValueHolder.NO_REPLY_ADDRESS_KEY, true).fullAddress)
                 .withSubject("Bounce information")
                 .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
