@@ -16,6 +16,7 @@ data class UserSettings(
     val lockedAnswerAddresses: Boolean = true
 )
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class BounceData(
     val time: Instant,
     val bounceFrom: String?,
