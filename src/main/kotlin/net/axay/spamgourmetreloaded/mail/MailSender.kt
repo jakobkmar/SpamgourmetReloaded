@@ -16,17 +16,8 @@ object MailSender {
         .clearEmailAddressCriteria()
         .buildMailer()
 
-    private val localMailer = MailerBuilder
-        .withSMTPServer("localhost", 25)
-        .clearEmailAddressCriteria()
-        .buildMailer()
-
     fun sendMail(email: Email) {
-        mailer.sendMail(email)
-    }
-
-    fun sendLocalEmail(email: Email) {
-        localMailer.sendMail(email)
+        mailer.sendMail(email, true)
     }
 
 }

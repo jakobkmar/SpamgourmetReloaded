@@ -79,18 +79,16 @@ object SpamgourmetAddressGenerator {
             crossinline objectToInsert: (key: String) -> E
     ): String {
 
-        return Manager.dataManager.mongoDB.executeTransaction { session ->
+        // TODO multithreading critical point
 
-            collection.findOne(session, filter)?.let { return@executeTransaction ifFound.invoke(it) }
+        collection.findOne(filter)?.let { return ifFound.invoke(it) }
 
-            val key = generateKeyFromStringWhile(string) {
-                collection.contains(session, generateWhile.invoke(it))
-            }
-            collection.insertOne(session, objectToInsert.invoke(key))
-
-            return@executeTransaction key
-
+        val key = generateKeyFromStringWhile(string) {
+            collection.contains(generateWhile.invoke(it))
         }
+        collection.insertOne(objectToInsert.invoke(key))
+
+        return key
 
     }
 

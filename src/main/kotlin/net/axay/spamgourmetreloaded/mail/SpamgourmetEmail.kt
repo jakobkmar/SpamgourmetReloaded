@@ -24,6 +24,9 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
     companion object {
 
+        // TODO maybe use transactions for database operations later
+        // this would allow multithreading
+        // BUT: -> reqieres Replica Set
         private val executorService = Executors.newSingleThreadExecutor()
 
         fun process(recipients: List<String>, mimeMessage: MimeMessage) {
@@ -66,10 +69,12 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
         // load user data or return
         val userData = DatabaseQueries.getUserDataFromUsername(username) ?: return
 
+        // TODO multithreading critical point
         // load user address or create new one
-        val userAddressData = Manager.dataManager.userAddressCollection.findOne(UserAddressData::address eq recipient.firstPart)
-                ?: UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toIntOrNull() ?: return).apply {
-                    Manager.dataManager.userAddressCollection.insertOne(this) }
+        val userAddressData =
+                Manager.dataManager.userAddressCollection.findOne(UserAddressData::address eq recipient.firstPart)
+                    ?: UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt()).apply {
+                        Manager.dataManager.userAddressCollection.insertOne(this) }
 
         // check uses left
         if (userAddressData.usesLeft <= 0) return

@@ -9,6 +9,7 @@ import net.axay.spamgourmetreloaded.database.data.UserData
 import net.axay.spamgourmetreloaded.main.ValueHolder.DATA_PREFIX
 import org.litote.kmongo.descendingIndex
 
+@Suppress("MemberVisibilityCanBePrivate", "CanBeParameter")
 class DataManager(val mongoDB: MongoDB) {
 
     val userCollection = mongoDB.getCollection<UserData>("${DATA_PREFIX}users") {
