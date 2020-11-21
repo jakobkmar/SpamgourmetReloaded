@@ -54,8 +54,6 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
 }
 
-// TODO when user deletes its account -> delete all addresses of him
-
 class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
     override fun process(recipient: SpamgourmetAddress) {
 
