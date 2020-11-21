@@ -1,19 +1,16 @@
 package net.axay.spamgourmet.mail
 
+import com.mongodb.client.model.ReturnDocument
 import net.axay.spamgourmet.database.DatabaseQueries
 import net.axay.spamgourmet.database.data.*
 import net.axay.spamgourmet.main.Manager
 import net.axay.spamgourmet.main.ValueHolder
 import net.axay.spamgourmet.util.logInfo
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.push
-import org.litote.kmongo.setValue
+import org.litote.kmongo.*
 import org.simplejavamail.api.email.EmailPopulatingBuilder
 import org.simplejavamail.converter.EmailConverter
 import org.simplejavamail.email.EmailBuilder
 import java.time.Instant
-import java.util.concurrent.Executors
 import javax.mail.internet.MimeMessage
 
 abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
@@ -24,13 +21,10 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
     companion object {
 
-        // TODO maybe use transactions for database operations later
-        // this would allow multithreading
-        // BUT: -> requires Replica Set
-        private val executorService = Executors.newSingleThreadExecutor()
-
         fun process(recipients: List<String>, mimeMessage: MimeMessage) {
             recipients.forEach {
+
+                // get address type
                 val recipient = SpamgourmetAddress(it)
                 val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
                     SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS -> SpamgourmetSpamEmail(mimeMessage)
@@ -39,14 +33,15 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                     SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
                     else -> null
                 }
-                executorService.execute {
-                    try {
-                        spamgourmetEmail?.process(recipient)
-                    } catch (exc: Throwable) {
-                        logInfo("An error occured while processing an email:", System.err)
-                        exc.printStackTrace()
-                    }
+
+                // process the email
+                try {
+                    spamgourmetEmail?.process(recipient)
+                } catch (exc: Throwable) {
+                    logInfo("An error occured while processing an email:", System.err)
+                    exc.printStackTrace()
                 }
+
             }
         }
 
@@ -67,12 +62,15 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
         // load user data or return
         val userData = DatabaseQueries.getUserDataFromUsername(username) ?: return
 
-        // TODO multithreading critical point
         // load user address or create new one
-        val userAddressData =
-                Manager.dataManager.userAddressCollection.findOne(UserAddressData::address eq recipient.firstPart)
-                    ?: UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt()).apply {
-                        Manager.dataManager.userAddressCollection.insertOne(this) }
+        val userAddressData = Manager.dataManager.userAddressCollection.findOneAndUpdate(
+            UserAddressData::address eq recipient.firstPart,
+            and(
+                setOnInsert(UserAddressData::address, recipient.firstPart),
+                setOnInsert(UserAddressData::usesLeft, recipient.firstPartValues[1].toInt())
+            ),
+            findOneAndUpdateUpsert().returnDocument(ReturnDocument.AFTER)
+        ) ?: throw IllegalStateException("Could not find any UserAddressData document in the collection")
 
         // check uses left
         if (userAddressData.usesLeft <= 0) return
