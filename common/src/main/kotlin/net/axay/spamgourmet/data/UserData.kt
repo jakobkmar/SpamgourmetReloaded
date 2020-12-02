@@ -22,5 +22,6 @@ class UserSettings(
 @Serializable
 class UserInfo(
     val description: String? = null,
+    val realName: Pair<String?, String?>,
     @Serializable(with = InstantSerializer::class) val joined: Instant
 )
