@@ -4,7 +4,7 @@
  * BUILD CONSTANTS
  */
 
-val MAIN_CLASS = "net.axay.spamgourmet.mailserver.main.ManagerKt"
+val main_class = "net.axay.spamgourmet.mailserver.main.ManagerKt"
 
 /*
  * PLUGINS
@@ -45,4 +45,4 @@ dependencies {
 
 // MAIN CLASS
 
-application.mainClass.set(MAIN_CLASS)
+application.mainClass.set(main_class)
