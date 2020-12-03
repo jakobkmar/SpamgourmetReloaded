@@ -54,7 +54,7 @@ tasks {
  * EXTENSIONS
  */
 
-val JavaVersion.versionString get() = majorVersion.let {
+val JavaVersion.versionString: String get() = majorVersion.let {
     val version = it.toInt()
     if (version <= 10) "1.$it" else it
 }
