@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.mailserver.util
+package net.axay.spamgourmet.common.logging
 
 import net.axay.spamgourmet.mailserver.main.ValueHolder
 import java.io.PrintStream
