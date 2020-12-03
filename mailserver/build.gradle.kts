@@ -26,10 +26,6 @@ dependencies {
 
     implementation(project(":common"))
 
-    // KMONGO
-    compileOnly("org.litote.kmongo", "kmongo-core", "4.2.0")
-    compileOnly("org.litote.kmongo", "kmongo-serialization-mapping", "4.2.0")
-
     // SIMPLE JAVA MAIL
     implementation("org.simplejavamail", "simple-java-mail", "6.4.4")
     implementation("org.simplejavamail", "batch-module", "6.4.4")
@@ -40,9 +36,6 @@ dependencies {
 
     // LOGGER
     implementation("org.slf4j", "slf4j-simple", "1.7.30")
-
-    // BLUEUTILS
-    implementation("net.axay.blueutils", "BlueUtils", "1.0-SNAPSHOT")
 
 }
 
