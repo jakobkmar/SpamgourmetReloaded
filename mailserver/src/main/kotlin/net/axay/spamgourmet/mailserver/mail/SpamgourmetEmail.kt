@@ -1,11 +1,11 @@
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.model.ReturnDocument
 import net.axay.blueutils.database.mongodb.asKMongoId
-import net.axay.spamgourmet.data.*
-import net.axay.spamgourmet.main.ValueHolder
-import net.axay.spamgourmet.main.db
-import net.axay.spamgourmet.util.logInfo
+import net.axay.spamgourmet.common.data.*
+import net.axay.spamgourmet.mailserver.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.db
+import net.axay.spamgourmet.mailserver.util.logInfo
 import org.litote.kmongo.*
 import org.simplejavamail.api.email.EmailPopulatingBuilder
 import org.simplejavamail.converter.EmailConverter

@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.config
+package net.axay.spamgourmet.mailserver.config
 
 import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.gson.GsonConfigManager

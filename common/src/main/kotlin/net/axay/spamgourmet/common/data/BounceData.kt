@@ -1,10 +1,8 @@
-package net.axay.spamgourmet.data
+package net.axay.spamgourmet.common.data
 
-import com.github.jershell.kbson.ObjectIdSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.bson.BsonObjectId
 import org.litote.kmongo.Id
 import org.litote.kmongo.serialization.InstantSerializer
 import java.time.Instant

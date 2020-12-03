@@ -1,8 +1,8 @@
-package net.axay.spamgourmet.database
+package net.axay.spamgourmet.common.database
 
 import net.axay.blueutils.database.mongodb.MongoDB
-import net.axay.spamgourmet.data.*
-import net.axay.spamgourmet.main.Values
+import net.axay.spamgourmet.common.data.*
+import net.axay.spamgourmet.common.main.Values
 
 class Database(mongoDB: MongoDB) {
 

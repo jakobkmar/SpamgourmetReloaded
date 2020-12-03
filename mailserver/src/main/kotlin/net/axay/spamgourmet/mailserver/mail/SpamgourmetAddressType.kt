@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
 enum class SpamgourmetAddressType {
 

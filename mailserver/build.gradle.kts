@@ -4,7 +4,7 @@
  * BUILD CONSTANTS
  */
 
-val MAIN_CLASS = "net.axay.spamgourmet.main.ManagerKt"
+val MAIN_CLASS = "net.axay.spamgourmet.mailserver.main.ManagerKt"
 
 /*
  * PLUGINS

@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.data
+package net.axay.spamgourmet.common.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

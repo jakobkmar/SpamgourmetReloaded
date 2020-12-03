@@ -1,6 +1,6 @@
-package net.axay.spamgourmet.util
+package net.axay.spamgourmet.mailserver.util
 
-import net.axay.spamgourmet.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.ValueHolder
 import java.io.PrintStream
 import java.lang.StringBuilder
 

@@ -1,6 +1,6 @@
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
-import net.axay.spamgourmet.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.ValueHolder
 import org.subethamail.smtp.MessageContext
 import org.subethamail.smtp.MessageHandler
 import org.subethamail.smtp.MessageHandlerFactory

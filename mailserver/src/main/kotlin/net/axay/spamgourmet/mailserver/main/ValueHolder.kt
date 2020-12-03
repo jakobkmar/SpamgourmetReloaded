@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.main
+package net.axay.spamgourmet.mailserver.main
 
 import java.util.*
 import javax.mail.Session

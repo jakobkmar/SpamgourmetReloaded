@@ -1,4 +1,4 @@
-package net.axay.spamgourmet.main
+package net.axay.spamgourmet.common.main
 
 object Values {
 

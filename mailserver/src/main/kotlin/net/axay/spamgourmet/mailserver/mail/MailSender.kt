@@ -1,6 +1,6 @@
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
-import net.axay.spamgourmet.main.Manager
+import net.axay.spamgourmet.mailserver.main.Manager
 import org.simplejavamail.api.email.Email
 import org.simplejavamail.mailer.MailerBuilder
 

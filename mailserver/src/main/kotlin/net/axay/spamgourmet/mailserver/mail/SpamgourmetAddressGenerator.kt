@@ -1,14 +1,13 @@
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.MongoCollection
-import net.axay.spamgourmet.database.contains
+import net.axay.spamgourmet.common.database.contains
 import net.axay.spamgourmet.database.data.AnswerAddressData
 import net.axay.spamgourmet.database.data.BounceAddressData
-import net.axay.spamgourmet.main.Manager
-import net.axay.spamgourmet.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.Manager
+import net.axay.spamgourmet.mailserver.main.ValueHolder
 import org.bson.conversions.Bson
 import org.litote.kmongo.and
-import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter

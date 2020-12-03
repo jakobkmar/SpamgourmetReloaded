@@ -1,6 +1,6 @@
-package net.axay.spamgourmet.console
+package net.axay.spamgourmet.mailserver.console
 
-import net.axay.spamgourmet.main.Manager
+import net.axay.spamgourmet.mailserver.main.Manager
 import kotlin.concurrent.thread
 
 object ConsoleListener {

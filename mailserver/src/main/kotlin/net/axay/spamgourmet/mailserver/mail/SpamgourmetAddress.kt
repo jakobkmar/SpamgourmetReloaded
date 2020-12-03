@@ -1,9 +1,9 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package net.axay.spamgourmet.mail
+package net.axay.spamgourmet.mailserver.mail
 
-import net.axay.spamgourmet.main.Manager
-import net.axay.spamgourmet.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.Manager
+import net.axay.spamgourmet.mailserver.main.ValueHolder
 import org.subethamail.smtp.util.EmailUtils
 
 class SpamgourmetAddress(val fullAddress: String) {
