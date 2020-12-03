@@ -4,9 +4,9 @@ import net.axay.blueutils.database.mongodb.MongoDB
 import net.axay.spamgourmet.mailserver.config.ConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.common.database.Database
+import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.mailserver.mail.MailHandler
 import net.axay.spamgourmet.mailserver.mail.SpamgourmetMailListener
-import net.axay.spamgourmet.mailserver.util.logInfo
 import org.subethamail.smtp.server.SMTPServer
 import kotlin.system.exitProcess
 
