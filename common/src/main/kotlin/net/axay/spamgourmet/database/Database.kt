@@ -16,6 +16,8 @@ class Database(mongoDB: MongoDB) {
 
     val bounceData =
         mongoDB.getCollectionOrCreate<BounceData>("${Values.PROJECT_PREFIX}bounce_data")
+    val userBounceData =
+        mongoDB.getCollectionOrCreate<UserBounceData>("${Values.PROJECT_PREFIX}user_bounce_data")
 
     val answerBounceAddressData =
         mongoDB.getCollectionOrCreate<AnswerBounceAddressData>("${Values.PROJECT_PREFIX}answer_bounce_address_data")
