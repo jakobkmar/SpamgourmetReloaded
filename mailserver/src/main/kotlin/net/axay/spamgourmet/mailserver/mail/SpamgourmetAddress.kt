@@ -3,7 +3,7 @@
 package net.axay.spamgourmet.mailserver.mail
 
 import net.axay.spamgourmet.mailserver.main.Manager
-import net.axay.spamgourmet.mailserver.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.Constants
 import org.subethamail.smtp.util.EmailUtils
 
 class SpamgourmetAddress(val fullAddress: String) {
@@ -32,9 +32,9 @@ class SpamgourmetAddress(val fullAddress: String) {
             }
             2 -> {
                 when(firstPartValues.last()) {
-                    ValueHolder.ANSWER_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS
-                    ValueHolder.SPAM_BOUNCE_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS
-                    ValueHolder.ANSWER_BOUNCE_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS
+                    Constants.ANSWER_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS
+                    Constants.SPAM_BOUNCE_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS
+                    Constants.ANSWER_BOUNCE_ADDRESS_KEY -> SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS
                     else -> SpamgourmetAddressType.UNKNOWN
                 }
             }

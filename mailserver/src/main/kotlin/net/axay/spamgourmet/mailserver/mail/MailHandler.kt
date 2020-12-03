@@ -1,6 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
-import net.axay.spamgourmet.mailserver.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.Constants
 import org.subethamail.smtp.MessageContext
 import org.subethamail.smtp.MessageHandler
 import org.subethamail.smtp.MessageHandlerFactory
@@ -26,7 +26,7 @@ class MailHandler : MessageHandlerFactory {
             }
 
             override fun data(data: InputStream) {
-                mail.message = MimeMessage(ValueHolder.DEFAULT_MAIL_SESSION, data)
+                mail.message = MimeMessage(Constants.DEFAULT_MAIL_SESSION, data)
             }
 
             override fun done() {

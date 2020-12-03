@@ -3,10 +3,7 @@ package net.axay.spamgourmet.mailserver.main
 import java.util.*
 import javax.mail.Session
 
-object ValueHolder {
-
-    const val PREFIX = "(SpamgourmetReloaded) >> "
-    const val DATA_PREFIX = "spamgourmet_"
+object Constants {
 
     val DEFAULT_MAIL_SESSION: Session = Session.getDefaultInstance(Properties())
 

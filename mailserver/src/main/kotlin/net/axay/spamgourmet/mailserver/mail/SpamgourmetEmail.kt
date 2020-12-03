@@ -4,7 +4,7 @@ import com.mongodb.client.model.ReturnDocument
 import net.axay.blueutils.database.mongodb.asKMongoId
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.logging.logInfo
-import net.axay.spamgourmet.mailserver.main.ValueHolder
+import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
 import org.litote.kmongo.*
 import org.simplejavamail.api.email.EmailPopulatingBuilder
@@ -225,7 +225,7 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
                 .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
                 .to(userData.realAddress)
                 .withBounceTo("<>")
-                .withReplyTo(SpamgourmetAddress(ValueHolder.NO_REPLY_ADDRESS_KEY, true).fullAddress)
+                .withReplyTo(SpamgourmetAddress(Constants.NO_REPLY_ADDRESS_KEY, true).fullAddress)
                 .withSubject("Bounce information")
                 .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
                 .buildEmail()
