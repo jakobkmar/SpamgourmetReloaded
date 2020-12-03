@@ -3,7 +3,7 @@ package net.axay.spamgourmet.main
 import net.axay.blueutils.database.mongodb.MongoDB
 import net.axay.spamgourmet.config.ConfigManager
 import net.axay.spamgourmet.console.ConsoleListener
-import net.axay.spamgourmet.database.DataManager
+import net.axay.spamgourmet.database.Database
 import net.axay.spamgourmet.mail.MailHandler
 import net.axay.spamgourmet.mail.SpamgourmetMailListener
 import net.axay.spamgourmet.util.logInfo
@@ -13,6 +13,8 @@ import kotlin.system.exitProcess
 fun main() {
     Manager.start()
 }
+
+val db get() = Manager.database
 
 object Manager {
 
@@ -28,7 +30,7 @@ object Manager {
     }
 
     private val mongoDB = MongoDB(configManager.mainConfig.databaseLoginInformation)
-    val dataManager = DataManager(mongoDB)
+    val database = Database(mongoDB)
 
     fun start() {
         try {
