@@ -5,7 +5,7 @@
  */
 
 val main_class = "net.axay.spamgourmet.website.main.ManagerKt"
-val ktor_version = "1.4.0"
+val ktor_version = "1.4.2"
 
 /*
  * PLUGINS
