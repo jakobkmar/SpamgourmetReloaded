@@ -28,7 +28,7 @@ dependencies {
     implementation(project(":common"))
 
     // KTOR
-    compileOnly("io.ktor:ktor-server-netty:$ktor_version")
+    implementation("io.ktor", "ktor-server-netty", ktor_version)
 
 }
 
