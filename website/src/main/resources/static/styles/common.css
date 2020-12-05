@@ -1,0 +1,14 @@
+@import "navigationbar.css";
+
+.noselect {
+    user-select: none;
+}
+
+.dark_background {
+    background-color: #16181c;
+}
+
+.no_periphery {
+    margin: 0;
+    padding: 0;
+}
