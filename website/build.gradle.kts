@@ -28,7 +28,16 @@ dependencies {
     implementation(project(":common"))
 
     // KTOR
+    // core
     implementation("io.ktor", "ktor-server-netty", ktor_version)
+    implementation("io.ktor", "ktor-server-core", ktor_version)
+    // website building
+    implementation("io.ktor", "ktor-html-builder", ktor_version)
+    // more
+    implementation("io.ktor", "ktor-server-sessions", ktor_version)
+
+    // LOGGER
+    implementation("org.slf4j", "slf4j-simple", "1.7.30")
 
 }
 
