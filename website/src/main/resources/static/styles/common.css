@@ -1,5 +1,14 @@
 @import "navigationbar.css";
 
+@font-face {
+    font-family: Quicksand;
+    src: url("../fonts/Quicksand-VariableFont_wght.ttf");
+}
+
+body {
+    font-family: Quicksand, Arial, serif;
+}
+
 .noselect {
     user-select: none;
 }
