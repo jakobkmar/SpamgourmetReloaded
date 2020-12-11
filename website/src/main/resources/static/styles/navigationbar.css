@@ -1,0 +1,26 @@
+.nav_box {
+    display: flex;
+    justify-content: center;
+
+    list-style: none;
+}
+
+.nav_box a {
+    display: block;
+    padding: 7px 23px;
+    margin: 7px 23px;
+    /*border-radius: 13px;*/
+
+    color: #b7b7b7;
+    font-size: 18px;
+    font-weight: 500;
+
+    transition: 320ms;
+
+    text-decoration: none;
+}
+
+.nav_box li a:hover {
+    color: white;
+    font-weight: bolder;
+}
