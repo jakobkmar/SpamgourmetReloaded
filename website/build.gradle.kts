@@ -5,7 +5,7 @@
  */
 
 val main_class = "net.axay.spamgourmet.website.main.ManagerKt"
-val ktor_version = "1.4.2"
+val ktor_version = "1.4.3"
 
 /*
  * PLUGINS
@@ -33,8 +33,9 @@ dependencies {
     implementation("io.ktor", "ktor-server-core", ktor_version)
     // website building
     implementation("io.ktor", "ktor-html-builder", ktor_version)
-    // more
+    // sessions and authentication
     implementation("io.ktor", "ktor-server-sessions", ktor_version)
+    implementation("io.ktor", "ktor-auth", ktor_version)
 
     // LOGGER
     implementation("org.slf4j", "slf4j-simple", "1.7.30")
