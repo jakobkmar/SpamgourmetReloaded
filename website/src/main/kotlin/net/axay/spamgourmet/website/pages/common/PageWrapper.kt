@@ -6,6 +6,7 @@ import net.axay.spamgourmet.common.main.Values
 inline fun HTML.pageWrapper(
     title: String,
     classes: String? = null,
+    crossinline head: HEAD.() -> Unit,
     crossinline builder: MAIN.() -> Unit
 ) {
 
@@ -13,7 +14,9 @@ inline fun HTML.pageWrapper(
         meta(charset = Values.CHARSET.name())
         title(title)
 
-        link("/static/styles/index.css", "stylesheet")
+        link("/static/styles/common.css", "stylesheet")
+        
+        head.invoke(this)
     }
 
     body("no_periphery") {
