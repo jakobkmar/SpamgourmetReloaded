@@ -1,1 +1,35 @@
 @import "common.css";
+
+.top_constellation {
+
+}
+
+.topimage {
+    width: 1067px;
+    height: 341px;
+
+    padding-top: 15px;
+}
+
+.account_panel {
+
+}
+
+.account_panel_placeholder {
+    width: 22px;
+}
+
+.account_panel_border {
+    border-style: solid;
+    border-color: white;
+    border-radius: 3%;
+    padding: 24px;
+}
+
+.login_panel {
+
+}
+
+.signup_panel {
+
+}
