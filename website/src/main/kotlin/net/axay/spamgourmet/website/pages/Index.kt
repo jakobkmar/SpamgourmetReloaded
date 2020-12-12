@@ -4,7 +4,7 @@ import kotlinx.html.*
 import net.axay.spamgourmet.website.pages.common.pageWrapper
 import net.axay.spamgourmet.website.util.svgObject
 
-fun HTML.pageIndex() = pageWrapper("Home", "dark_background") {
+fun HTML.pageIndex() = pageWrapper("Home") {
 
     div {
         div("flex_center") {
