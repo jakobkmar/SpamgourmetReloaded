@@ -3,7 +3,11 @@ package net.axay.spamgourmet.website.pages.common
 import kotlinx.html.*
 import net.axay.spamgourmet.common.main.Values
 
-inline fun HTML.pageWrapper(title: String, crossinline builder: MAIN.() -> Unit) {
+inline fun HTML.pageWrapper(
+    title: String,
+    classes: String? = null,
+    crossinline builder: MAIN.() -> Unit
+) {
 
     head {
         meta(charset = Values.CHARSET.name())
@@ -24,7 +28,7 @@ inline fun HTML.pageWrapper(title: String, crossinline builder: MAIN.() -> Unit)
             }
         }
 
-        main {
+        main(classes) {
             builder.invoke(this)
         }
 
