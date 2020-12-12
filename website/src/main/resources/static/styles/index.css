@@ -1,7 +1,7 @@
 @import "common.css";
 
-.top_constellation {
-
+html {
+    background-color: #16181c;
 }
 
 .topimage {
