@@ -11,12 +11,12 @@ fun HTML.pageIndex() = pageWrapper("Home", "dark_background") {
             svgObject("static/svg/index/topimage.svg", "topimage")
         }
         div("account_panel flex_center") {
-            div("login_panel account_panel_border") {
-                p { +"LOGIN" }
+            div("login_panel account_panel_part") {
+                span { +"LOGIN" }
             }
             div("account_panel_placeholder")
-            div("signup_panel account_panel_border") {
-                p { +"SIGN UP" }
+            div("signup_panel account_panel_part") {
+                span { +"SIGN UP" }
             }
         }
     }
