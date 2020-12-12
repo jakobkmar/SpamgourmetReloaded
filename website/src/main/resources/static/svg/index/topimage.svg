@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 989 313" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-441.463,-70.0026)">
+        <g id="Arrow-view" serif:id="Arrow view" transform="matrix(1.56377,0,0,1.56377,-541.223,-48.3808)">
+            <g>
+                <g>
+                    <path d="M1220.81,247.265C1216,115.657 1140.45,113.643 1140.45,113.643" style="fill:none;stroke:url(#_Linear1);stroke-width:4px;"/>
+                    <g transform="matrix(0.9744,0.22482,-0.22482,0.9744,53.0415,-253.951)">
+                        <path d="M1140.45,113.643L1156.12,129.311" style="fill:none;stroke:url(#_Linear2);stroke-width:4px;"/>
+                        <path d="M1140.45,113.643L1156.12,97.975" style="fill:none;stroke:url(#_Linear3);stroke-width:4px;"/>
+                    </g>
+                </g>
+                <g transform="matrix(1,0,0,1,333.992,47.6634)">
+                    <text x="846.964px" y="227.365px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:16px;fill:rgb(164,112,120);">SP<tspan x="867.121px 877.792px " y="227.365px 227.365px ">AM</tspan>MER</text>
+                </g>
+            </g>
+            <g>
+                <g transform="matrix(-1,0,0,1,1920,1.13687e-13)">
+                    <path d="M1220.81,247.265C1216,115.657 1140.45,113.643 1140.45,113.643" style="fill:none;stroke:url(#_Linear4);stroke-width:4px;"/>
+                    <g transform="matrix(-0.0537416,-0.998555,-0.998555,0.0537416,1395.58,1379.96)">
+                        <path d="M1140.45,113.643L1156.12,129.311" style="fill:none;stroke:url(#_Linear5);stroke-width:4px;"/>
+                        <path d="M1140.45,113.643L1156.12,97.975" style="fill:none;stroke:url(#_Linear6);stroke-width:4px;"/>
+                    </g>
+                </g>
+                <g transform="matrix(1,0,0,1,-187.632,47.6634)">
+                    <text x="815.992px" y="227.365px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:16px;fill:rgb(112,164,124);">YOUR MAIL<tspan x="903.414px 907.859px " y="227.365px 227.365px "> I</tspan>NBOX</text>
+                </g>
+            </g>
+            <g>
+                <g transform="matrix(1,0,0,1,153.539,3.36786)">
+                    <text x="692.337px" y="93.463px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:29px;fill:white;">SP<tspan x="728.871px 748.213px " y="93.463px 93.463px ">AM</tspan>GOURMET</text>
+                    <text x="726.69px" y="123.412px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:29px;fill:white;">RELOADED</text>
+                </g>
+                <g transform="matrix(1,0,0,1,22.5888,-6.68851)">
+                    <text x="783.118px" y="162.109px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:16px;fill:white;">Protect your email address from being sold!</text>
+                </g>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(80.3587,0,0,149.291,1140.45,172.62)"><stop offset="0" style="stop-color:white;stop-opacity:1"/><stop offset="1" style="stop-color:rgb(164,112,120);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(80.3587,0,0,149.291,1140.45,172.62)"><stop offset="0" style="stop-color:white;stop-opacity:1"/><stop offset="1" style="stop-color:rgb(164,112,120);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(80.3587,0,0,149.291,1140.45,172.62)"><stop offset="0" style="stop-color:white;stop-opacity:1"/><stop offset="1" style="stop-color:rgb(164,112,120);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear4" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(96.0073,0,0,134.465,1140.45,180.875)"><stop offset="0" style="stop-color:white;stop-opacity:1"/><stop offset="1" style="stop-color:rgb(112,164,124);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear5" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(96.0073,0,0,134.465,1140.45,180.875)"><stop offset="0" style="stop-color:rgb(112,164,124);stop-opacity:1"/><stop offset="0.04" style="stop-color:rgb(130,176,140);stop-opacity:1"/><stop offset="0.08" style="stop-color:rgb(144,185,153);stop-opacity:1"/><stop offset="0.24" style="stop-color:rgb(149,188,158);stop-opacity:1"/><stop offset="0.68" style="stop-color:rgb(154,191,163);stop-opacity:1"/><stop offset="1" style="stop-color:white;stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear6" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(96.0073,0,0,134.465,1140.45,180.875)"><stop offset="0" style="stop-color:rgb(112,164,124);stop-opacity:1"/><stop offset="0.04" style="stop-color:rgb(130,176,140);stop-opacity:1"/><stop offset="0.08" style="stop-color:rgb(144,185,153);stop-opacity:1"/><stop offset="0.24" style="stop-color:rgb(149,188,158);stop-opacity:1"/><stop offset="0.68" style="stop-color:rgb(154,191,163);stop-opacity:1"/><stop offset="1" style="stop-color:white;stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>
