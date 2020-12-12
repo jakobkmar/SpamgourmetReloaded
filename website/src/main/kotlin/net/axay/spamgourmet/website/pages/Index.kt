@@ -6,10 +6,19 @@ import net.axay.spamgourmet.website.util.svgObject
 
 fun HTML.pageIndex() = pageWrapper("Home", "dark_background") {
 
-    svgObject("static/svg/index/topimage.svg", "1067px")
-
-/*    img(src = "static/svg/index/topimage.svg") {
-        width = "1067px"
-    }*/
+    div {
+        div("flex_center") {
+            svgObject("static/svg/index/topimage.svg", "topimage")
+        }
+        div("account_panel flex_center") {
+            div("login_panel account_panel_border") {
+                p { +"LOGIN" }
+            }
+            div("account_panel_placeholder")
+            div("signup_panel account_panel_border") {
+                p { +"SIGN UP" }
+            }
+        }
+    }
 
 }
