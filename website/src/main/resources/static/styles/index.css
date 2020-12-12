@@ -19,11 +19,22 @@
     width: 22px;
 }
 
-.account_panel_border {
-    border-style: solid;
-    border-color: white;
-    border-radius: 3%;
+.account_panel_part {
     padding: 24px;
+
+    border-style: solid;
+    border-color: #b7b7b7;
+    border-radius: 3%;
+    border-width: 1px;
+
+    color: white;
+
+    transition: 320ms;
+}
+
+.account_panel_part:hover {
+    border-color: white;
+    border-radius: 10%;
 }
 
 .login_panel {
