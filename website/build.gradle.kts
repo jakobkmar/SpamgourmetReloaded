@@ -17,6 +17,8 @@ plugins {
 
     application
 
+    kotlin("plugin.serialization") version "1.4.10"
+
 }
 
 /*
@@ -36,9 +38,14 @@ dependencies {
     // sessions and authentication
     implementation("io.ktor", "ktor-server-sessions", ktor_version)
     implementation("io.ktor", "ktor-auth", ktor_version)
+    // serialization
+    implementation("io.ktor", "ktor-serialization", ktor_version)
 
     // LOGGER
     implementation("org.slf4j", "slf4j-simple", "1.7.30")
+
+    // KOTLINX
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 
 }
 
