@@ -14,11 +14,28 @@ fun HTML.pageIndex() = pageWrapper("Home",
         div("topimage_container") {
             svgObject("static/svg/index/topimage.svg", "topimage")
         }
+
         div("account_panel flex_center") {
             div("login_panel account_panel_part") {
                 span { +"LOGIN" }
+                form {
+                    input {
+                        alt = "USERNAME"
+                    }
+                    input {
+                        alt = "PASSWORD"
+                    }
+                    button(type = ButtonType.submit) {
+                        +"Log in"
+                    }
+                }
+                span {
+                    +"You have to log in to access your dashboard!"
+                }
             }
+
             div("account_panel_placeholder")
+
             div("signup_panel account_panel_part") {
                 span { +"SIGN UP" }
             }
