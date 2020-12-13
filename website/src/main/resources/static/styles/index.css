@@ -41,7 +41,12 @@ html {
 }
 
 .login_panel {
+    width: 156px;
+}
 
+.login_panel form {
+    display: flex;
+    flex-direction: column;
 }
 
 .signup_panel {
