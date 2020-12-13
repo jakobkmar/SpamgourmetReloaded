@@ -22,7 +22,7 @@ html {
 
     border-style: solid;
     border-color: #b7b7b7;
-    border-radius: 3%;
+    border-radius: 5px;
     border-width: 1px;
 
     color: white;
@@ -32,7 +32,6 @@ html {
 
 .account_panel_part:hover {
     border-color: white;
-    border-radius: 10%;
 }
 
 .login_panel {
