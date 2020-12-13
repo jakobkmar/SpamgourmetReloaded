@@ -2,19 +2,18 @@ html {
     background-color: #16181c;
 }
 
-.topimage {
-    width: 1067px;
-    height: 341px;
-
-    padding-top: 15px;
+.topview {
+    position: relative;
 }
 
 .account_panel {
-
+    position: absolute;
+    top: 186px;
 }
 
-.account_panel_placeholder {
-    width: 22px;
+.topimage_container {
+    position: absolute;
+    top: 0;
 }
 
 .account_panel_part {
@@ -34,10 +33,21 @@ html {
     border-color: white;
 }
 
+.topimage {
+    width: 1067px;
+    height: 341px;
+
+    padding-top: 15px;
+}
+
 .login_panel {
 
 }
 
 .signup_panel {
 
+}
+
+.account_panel_placeholder {
+    width: 22px;
 }
