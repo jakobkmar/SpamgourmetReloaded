@@ -3,5 +3,5 @@
 build/
 configs/
 gradle/
-src/test/
+*/src/test/
 config/
