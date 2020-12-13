@@ -47,6 +47,9 @@ dependencies {
     // KOTLINX
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 
+    // CRYPT
+    implementation("at.favre.lib", "bcrypt", "0.9.0")
+
 }
 
 /*
