@@ -10,8 +10,8 @@ fun HTML.pageIndex() = pageWrapper("Home",
     }
 ) {
 
-    div {
-        div("flex_center") {
+    div("topview flex_center") {
+        div("topimage_container") {
             svgObject("static/svg/index/topimage.svg", "topimage")
         }
         div("account_panel flex_center") {
