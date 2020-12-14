@@ -25,8 +25,10 @@ fun HTML.pageIndex() = pageWrapper("Home",
                     input(type = InputType.password) {
                         placeholder = "PASSWORD"
                     }
-                    button(type = ButtonType.submit) {
-                        +"Log in"
+                    div("flex_right") {
+                        button(type = ButtonType.submit) {
+                            +"Log in"
+                        }
                     }
                 }
                 span {
