@@ -22,7 +22,7 @@ fun HTML.pageIndex() = pageWrapper("Home",
                     input {
                         placeholder = "USERNAME"
                     }
-                    input {
+                    input(type = InputType.password) {
                         placeholder = "PASSWORD"
                     }
                     button(type = ButtonType.submit) {
