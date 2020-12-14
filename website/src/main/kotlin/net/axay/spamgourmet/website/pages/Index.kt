@@ -17,7 +17,7 @@ fun HTML.pageIndex() = pageWrapper("Home",
 
         div("account_panel flex_center") {
             div("login_panel account_panel_part") {
-                span { +"LOGIN" }
+                h1 { +"LOGIN" }
                 form {
                     input {
                         placeholder = "USERNAME"
@@ -39,7 +39,7 @@ fun HTML.pageIndex() = pageWrapper("Home",
             div("account_panel_placeholder")
 
             div("signup_panel account_panel_part") {
-                span { +"SIGN UP" }
+                h1 { +"SIGN UP" }
             }
         }
     }
