@@ -26,3 +26,8 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.flex_right {
+    display: flex;
+    justify-content: right;
+}
