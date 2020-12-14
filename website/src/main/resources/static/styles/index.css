@@ -33,6 +33,11 @@ html {
     border-color: white;
 }
 
+.account_panel_part h1 {
+    font-size: 24px;
+    margin: 0 0 14px;
+}
+
 .topimage {
     width: 1067px;
     height: 341px;
@@ -72,6 +77,7 @@ html {
     text-align: center;
 
     padding: 8px 12px;
+    margin-bottom: 27px;
 
     border-radius: 2px;
     border-style: none;
