@@ -19,10 +19,10 @@ fun HTML.pageIndex() = pageWrapper("Home",
             div("login_panel account_panel_part") {
                 h1 { +"LOGIN" }
                 form {
-                    input {
+                    input(name = "username") {
                         placeholder = "USERNAME"
                     }
-                    input(type = InputType.password) {
+                    input(name = "password", type = InputType.password) {
                         placeholder = "PASSWORD"
                     }
                     div("flex_right") {
