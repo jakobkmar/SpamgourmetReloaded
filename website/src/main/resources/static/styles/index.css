@@ -20,7 +20,7 @@ html {
     padding: 24px;
 
     border-style: solid;
-    border-color: #b7b7b7;
+    border-color: #8d8d8d;
     border-radius: 6px;
     border-width: 1px;
 
@@ -49,8 +49,45 @@ html {
     flex-direction: column;
 }
 
-.signup_panel {
+.login_panel form input {
+    background-color: #23272D;
+    color: white;
 
+    border-radius: 2px;
+    border-style: none;
+
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.login_panel form input::placeholder {
+    color: #585858;
+    font-size: 12px;
+}
+
+.login_panel button {
+    width: 74px;
+
+    font-size: 18px;
+    text-align: center;
+
+    padding: 8px 12px;
+
+    border-radius: 2px;
+    border-style: none;
+
+    background-color: #4B525F;
+    color: white;
+
+    transition: 320ms;
+}
+
+.login_panel button:hover {
+    background-color: #748096;
+}
+
+.signup_panel {
+    width: 200px;
 }
 
 .account_panel_placeholder {
