@@ -20,10 +20,10 @@ fun HTML.pageIndex() = pageWrapper("Home",
                 span { +"LOGIN" }
                 form {
                     input {
-                        alt = "USERNAME"
+                        placeholder = "USERNAME"
                     }
                     input {
-                        alt = "PASSWORD"
+                        placeholder = "PASSWORD"
                     }
                     button(type = ButtonType.submit) {
                         +"Log in"
