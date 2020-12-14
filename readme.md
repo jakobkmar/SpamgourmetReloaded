@@ -41,5 +41,4 @@ Currently, the service is still in development. But it is planned to:
 
 ### Naming
 
-Obfuscated addresses are called a *user address*.
-All addresses that send an email to a user address, regardless of the emails content, are called a *spammer address*.
+Obfuscated addresses are called a *user address*. All addresses that send an email to a user address, regardless of the emails content, are called a *spammer address*.
