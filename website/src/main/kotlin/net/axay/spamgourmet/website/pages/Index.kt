@@ -26,7 +26,8 @@ fun HTML.pageIndex() = pageWrapper("Home",
                         placeholder = "PASSWORD"
                     }
                     div("flex_right") {
-                        button(type = ButtonType.submit) {
+                        button(type = ButtonType.submit, formMethod = ButtonFormMethod.post) {
+                            formAction = "/login"
                             +"Log in"
                         }
                     }
