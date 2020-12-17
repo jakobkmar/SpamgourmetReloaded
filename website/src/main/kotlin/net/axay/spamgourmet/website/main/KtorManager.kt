@@ -10,6 +10,9 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.sessions.*
 import net.axay.spamgourmet.website.pages.pageIndex
+import net.axay.spamgourmet.website.security.SessionCookie
+import net.axay.spamgourmet.website.security.login
+import net.axay.spamgourmet.website.security.registration
 
 object KtorManager {
 
@@ -25,8 +28,6 @@ object KtorManager {
     }
 
 }
-
-data class SessionCookie(val username: String)
 
 fun Application.mainModule() {
 
@@ -58,29 +59,8 @@ fun Application.mainModule() {
             call.respondRedirect("https://github.com/bluefireoly/SpamgourmetReloaded")
         }
 
-        route("/login") {
-            authenticate("login") {
-                post {
-                    call.sessions.set(SessionCookie(
-                        call.principal<UserIdPrincipal>()?.name ?: error("Missing principal")
-                    ))
-                    call.respondRedirect("/logintest")
-                }
-            }
-        }
-
-        get("/logintest") {
-            val session = call.sessions.get<SessionCookie>()
-            if (session != null) {
-                call.respondText("Welcome back, ${session.username}!")
-            } else {
-                call.respondText("You're logged out!")
-            }
-        }
-
-        get("/logout") {
-            call.sessions.clear<SessionCookie>()
-        }
+        registration()
+        login()
 
     }
 }
