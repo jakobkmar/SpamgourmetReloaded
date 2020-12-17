@@ -15,6 +15,6 @@ class RegistrationPostData(
 
 fun Routing.registration() = post("/register") {
 
-    val postData = call.receive<RegistrationPostData>()
+    val postData = call.receiveOrNull<RegistrationPostData>()
 
 }
