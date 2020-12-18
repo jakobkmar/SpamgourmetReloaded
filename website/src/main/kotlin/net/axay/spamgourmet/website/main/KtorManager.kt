@@ -2,10 +2,12 @@ package net.axay.spamgourmet.website.main
 
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.features.*
 import io.ktor.html.*
 import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.sessions.*
@@ -43,6 +45,10 @@ fun Application.mainModule() {
 
     install(Sessions) {
         cookie<SessionCookie>("SESSION")
+    }
+
+    install(ContentNegotiation) {
+        json()
     }
 
     routing {
