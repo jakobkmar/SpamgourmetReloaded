@@ -58,11 +58,17 @@ html {
     background-color: #23272D;
     color: white;
 
+    outline: 1px none white;
+
     border-radius: 2px;
     border-style: none;
 
     padding: 10px;
     margin-bottom: 10px;
+}
+
+.login_panel form input:focus {
+    outline-style: solid;
 }
 
 .login_panel form input::placeholder {
