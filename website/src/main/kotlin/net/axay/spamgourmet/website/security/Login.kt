@@ -13,10 +13,11 @@ fun Routing.login() {
     route("/login") {
         authenticate("login") {
             post {
+                call.principal<UserIdPrincipal>()?.name ?: error("Missing principal")
                 call.sessions.set(
                     SessionCookie(
-                    call.principal<UserIdPrincipal>()?.name ?: error("Missing principal")
-                )
+
+                    )
                 )
                 call.respondRedirect("/logintest")
             }
