@@ -5,9 +5,7 @@ import net.axay.blueutils.gson.jsonConfig
 import java.io.File
 
 class ConfigManager(applicationFolder: File) {
-    private val configFolder = File(applicationFolder, "/config/").apply {
-        println(this.absolutePath)
-    }
+    private val configFolder = File(applicationFolder, "/config/")
 
     val databaseLoginInformation by jsonConfig(File(configFolder, "databaseLoginInformation.json")) {
         DatabaseLoginInformation.NOTSET_DEFAULT
