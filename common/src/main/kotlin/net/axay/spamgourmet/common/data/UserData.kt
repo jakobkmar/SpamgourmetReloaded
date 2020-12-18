@@ -8,7 +8,6 @@ import java.time.Instant
 @Serializable
 class UserData(
     @SerialName("_id") val username: String,
-    val changeableUsername: String,
     val realAddress: String,
     val settings: UserSettings = UserSettings(),
     val information: UserInfo
@@ -22,6 +21,6 @@ class UserSettings(
 @Serializable
 class UserInfo(
     val description: String? = null,
-    val realName: Pair<String?, String?>,
+    val realName: Pair<String?, String?> = Pair(null, null),
     @Serializable(with = InstantSerializer::class) val joined: Instant
 )
