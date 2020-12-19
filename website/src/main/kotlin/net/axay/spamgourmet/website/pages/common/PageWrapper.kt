@@ -23,7 +23,7 @@ inline fun HTML.pageWrapper(
 
         header {
             ul("nav_box dark_background no_periphery") {
-                li { a("/home") { +"Home" } }
+                li { a("/") { +"Home" } }
                 li { a("/about") { +"About" } }
                 li { a("/contact") { +"Contact" } }
                 li { a("/forum") { +"Forum" } }
