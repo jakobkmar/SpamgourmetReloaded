@@ -48,7 +48,7 @@ fun Routing.login() {
     }
 
     get("/logintest") {
-        val session = call.sessions.get<SessionCookie>()
+        val session = call.session
         if (session != null) {
             call.respondText("Welcome back, ${session.username}!")
         } else {
@@ -61,3 +61,5 @@ fun Routing.login() {
     }
 
 }
+
+val ApplicationCall.session get() = sessions.get<SessionCookie>()
