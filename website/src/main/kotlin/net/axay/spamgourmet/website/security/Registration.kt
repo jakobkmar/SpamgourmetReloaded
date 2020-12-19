@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
 import net.axay.blueutils.database.mongodb.insertOneCatchDuplicate
 import net.axay.spamgourmet.common.data.UserData
 import net.axay.spamgourmet.common.data.UserInfo
-import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.website.main.db
 import org.litote.kmongo.*
 import java.time.Instant
