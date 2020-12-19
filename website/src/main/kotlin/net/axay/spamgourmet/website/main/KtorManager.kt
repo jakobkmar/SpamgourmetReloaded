@@ -33,15 +33,7 @@ object KtorManager {
 
 fun Application.mainModule() {
 
-    install(Authentication) {
-        form("login") {
-            userParamName = "username"
-            passwordParamName = "password"
-            validate { credentials ->
-                UserIdPrincipal(credentials.name)
-            }
-        }
-    }
+    login()
 
     install(Sessions) {
         cookie<SessionCookie>("SESSION")
