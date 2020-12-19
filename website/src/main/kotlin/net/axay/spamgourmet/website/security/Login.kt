@@ -7,11 +7,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import net.axay.spamgourmet.common.data.UserData
-import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.website.main.db
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
-import org.litote.kmongo.projection
 
 data class SessionCookie(val username: String)
 
