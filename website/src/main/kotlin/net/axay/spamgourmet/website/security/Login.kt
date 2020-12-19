@@ -23,8 +23,6 @@ fun Application.login() {
             passwordParamName = "password"
             validate { credentials ->
 
-                respondRedirect("")
-
                 val hashedPassword = db.userData.findOne(
                     UserData::username eq credentials.name
                 )?.password ?: return@validate null
