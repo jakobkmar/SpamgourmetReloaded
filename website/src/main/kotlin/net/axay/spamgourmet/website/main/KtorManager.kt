@@ -49,9 +49,7 @@ fun Application.mainModule() {
             resources("static")
         }
 
-        get("/") {
-            call.respondHtml { pageIndex() }
-        }
+        pageIndex()
 
         get("/github") {
             call.respondRedirect("https://github.com/bluefireoly/SpamgourmetReloaded")
