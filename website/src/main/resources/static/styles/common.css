@@ -5,8 +5,13 @@
     src: url("../fonts/Quicksand-VariableFont_wght.ttf");
 }
 
-body {
-    font-family: Quicksand, Arial, serif;
+@font-face {
+    font-family: Raleway;
+    src: url("../fonts/Raleway-VariableFont_wght.ttf");
+}
+
+main {
+    font-family: Raleway, Arial, serif;
 }
 
 .noselect {
