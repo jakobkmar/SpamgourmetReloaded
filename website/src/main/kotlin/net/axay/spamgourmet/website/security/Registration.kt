@@ -42,10 +42,8 @@ fun Routing.registration() = post("/register") {
 
     if (!insert.wasAcknowledged()) {
         call.respondText("es gab schon jemanden in der datenbank")
-        println("yooo da war schon jmd")
     } else {
         call.respondText("jo nun in die datenbank hinzugefügt :poggles:")
-        println("yooo neu drin")
     }
 
 }
