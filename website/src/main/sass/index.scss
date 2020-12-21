@@ -1,0 +1,107 @@
+html {
+  background-color: #16181c;
+}
+
+.topview {
+  position: relative;
+}
+
+.account_panel {
+  position: absolute;
+  top: 186px;
+}
+
+.topimage_container {
+  position: absolute;
+  top: 0;
+}
+
+.account_panel_part {
+  padding: 24px;
+
+  border-style: solid;
+  border-color: #8d8d8d;
+  border-radius: 6px;
+  border-width: 1px;
+
+  color: white;
+
+  transition: 320ms;
+}
+
+.account_panel_part:hover {
+  border-color: white;
+}
+
+.account_panel_part h1 {
+  font-size: 24px;
+  margin: 0 0 14px;
+}
+
+.topimage {
+  width: 1067px;
+  height: 341px;
+
+  padding-top: 15px;
+}
+
+.login_panel {
+  width: 156px;
+}
+
+.login_panel form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login_panel form input {
+  background-color: #23272D;
+  color: white;
+
+  outline: 1px none white;
+
+  border-radius: 2px;
+  border-style: none;
+
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.login_panel form input:focus {
+  outline-style: solid;
+}
+
+.login_panel form input::placeholder {
+  color: #585858;
+  font-size: 12px;
+}
+
+.login_panel button {
+  width: 74px;
+
+  font-size: 18px;
+  text-align: center;
+
+  padding: 8px 12px;
+  margin-bottom: 27px;
+
+  border-radius: 2px;
+  border-style: none;
+
+  background-color: #4B525F;
+  color: white;
+
+  transition: 320ms;
+}
+
+.login_panel button:hover {
+  background-color: #748096;
+}
+
+.signup_panel {
+  width: 200px;
+}
+
+.account_panel_placeholder {
+  width: 22px;
+}

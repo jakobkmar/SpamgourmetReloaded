@@ -1,0 +1,38 @@
+@import "navigationbar.scss";
+
+@font-face {
+  font-family: Quicksand;
+  src: url("static/fonts/Quicksand-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: Raleway;
+  src: url("static/fonts/Raleway-VariableFont_wght.ttf");
+}
+
+main {
+  font-family: Raleway, Arial, serif;
+}
+
+.noselect {
+  user-select: none;
+}
+
+.dark_background {
+  background-color: #16181c;
+}
+
+.no_periphery {
+  margin: 0;
+  padding: 0;
+}
+
+.flex_center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex_right {
+  display: flex;
+  justify-content: right;
+}

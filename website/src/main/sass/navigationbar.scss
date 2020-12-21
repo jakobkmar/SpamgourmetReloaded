@@ -1,13 +1,12 @@
 .nav_box {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    list-style: none;
+  list-style: none;
 
-    font-family: Quicksand, Arial, serif;
-}
+  font-family: Quicksand, Arial, serif;
 
-.nav_box a {
+  a {
     display: block;
     padding: 7px 23px;
     margin: 7px 23px;
@@ -19,9 +18,10 @@
     text-decoration: none;
 
     transition: 320ms;
-}
 
-.nav_box li a:hover {
-    color: white;
-    font-weight: bolder;
+    :hover {
+      color: white;
+      font-weight: bolder;
+    }
+  }
 }
