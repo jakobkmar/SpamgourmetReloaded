@@ -8,6 +8,8 @@ class Database(mongoDB: MongoDB) {
 
     val userData =
         mongoDB.getCollectionOrCreate<UserData>("${Values.DATA_PREFIX}user_data")
+    val userLoginData =
+        mongoDB.getCollectionOrCreate<UserLoginData>("${Values.DATA_PREFIX}user_login_data")
 
     val userAddressData =
         mongoDB.getCollectionOrCreate<UserAddressData>("${Values.DATA_PREFIX}user_address_data")
