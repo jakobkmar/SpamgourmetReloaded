@@ -42,7 +42,7 @@ fun Routing.login() {
             post {
                 val name = call.principal<UserIdPrincipal>()?.name ?: error("Missing principal")
                 call.sessions.set(SessionCookie(name))
-                call.respondRedirect("/logintest")
+                call.respondRedirect("/")
             }
         }
     }
