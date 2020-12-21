@@ -1,5 +1,7 @@
 @file:Suppress("PropertyName")
 
+import org.kravemir.gradle.sass.SassCompileTask
+
 /*
  * BUILD CONSTANTS
  */
@@ -18,6 +20,8 @@ plugins {
     application
 
     kotlin("plugin.serialization") version "1.4.10"
+
+    id("org.kravemir.gradle.sass") version "1.2.4"
 
 }
 
@@ -59,3 +63,12 @@ dependencies {
 // MAIN CLASS
 
 application.mainClass.set(main_class)
+
+// SCSS
+
+val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
+    srcDir = file("$projectDir/src/main/sass")
+    outDir = file("$buildDir/resources/main/static/styles")
+}
+
+tasks.build.get().dependsOn(sassTask)
