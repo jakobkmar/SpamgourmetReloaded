@@ -67,7 +67,7 @@ application.mainClass.set(main_class)
 // SCSS
 
 val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
-    srcDir = file("$projectDir/src/main/sass")
+    srcDir = file("$projectDir/resources/static/styles")
     outDir = file("$buildDir/resources/main/static/styles")
 }
 
