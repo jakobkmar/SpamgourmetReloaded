@@ -58,6 +58,7 @@ fun Routing.login() {
 
     get("/logout") {
         call.sessions.clear<SessionCookie>()
+        call.respondRedirect("/")
     }
 
 }
