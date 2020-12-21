@@ -52,6 +52,9 @@ fun Routing.pageIndex() {
                         } else {
 
                             h1 { +"Welcome back, ${session.username}!" }
+                            a("/logout") {
+                                +"Logout"
+                            }
 
                         }
                     }
