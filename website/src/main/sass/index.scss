@@ -27,15 +27,15 @@ html {
   color: white;
 
   transition: 320ms;
-}
 
-.account_panel_part:hover {
-  border-color: white;
-}
+  :hover {
+    border-color: white;
+  }
 
-.account_panel_part h1 {
-  font-size: 24px;
-  margin: 0 0 14px;
+  h1 {
+    font-size: 24px;
+    margin: 0 0 14px;
+  }
 }
 
 .topimage {
@@ -47,55 +47,55 @@ html {
 
 .login_panel {
   width: 156px;
-}
 
-.login_panel form {
-  display: flex;
-  flex-direction: column;
-}
+  form {
+    display: flex;
+    flex-direction: column;
 
-.login_panel form input {
-  background-color: #23272D;
-  color: white;
+    input {
+      background-color: #23272D;
+      color: white;
 
-  outline: 1px none white;
+      outline: 1px none white;
 
-  border-radius: 2px;
-  border-style: none;
+      border-radius: 2px;
+      border-style: none;
 
-  padding: 10px;
-  margin-bottom: 10px;
-}
+      padding: 10px;
+      margin-bottom: 10px;
 
-.login_panel form input:focus {
-  outline-style: solid;
-}
+      :focus {
+        outline-style: solid;
+      }
 
-.login_panel form input::placeholder {
-  color: #585858;
-  font-size: 12px;
-}
+      ::placeholder {
+        color: #585858;
+        font-size: 12px;
+      }
+    }
 
-.login_panel button {
-  width: 74px;
+    button {
+      width: 74px;
 
-  font-size: 18px;
-  text-align: center;
+      font-size: 18px;
+      text-align: center;
 
-  padding: 8px 12px;
-  margin-bottom: 27px;
+      padding: 8px 12px;
+      margin-bottom: 27px;
 
-  border-radius: 2px;
-  border-style: none;
+      border-radius: 2px;
+      border-style: none;
 
-  background-color: #4B525F;
-  color: white;
+      background-color: #4B525F;
+      color: white;
 
-  transition: 320ms;
-}
+      transition: 320ms;
 
-.login_panel button:hover {
-  background-color: #748096;
+      :hover {
+        background-color: #748096;
+      }
+    }
+  }
 }
 
 .signup_panel {
