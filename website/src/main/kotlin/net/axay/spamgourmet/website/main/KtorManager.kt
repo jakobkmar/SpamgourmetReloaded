@@ -8,6 +8,7 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
 import net.axay.spamgourmet.website.pages.dashboard
+import net.axay.spamgourmet.website.pages.pageError
 import net.axay.spamgourmet.website.pages.pageIndex
 import net.axay.spamgourmet.website.security.SessionCookie
 import net.axay.spamgourmet.website.security.login
@@ -40,6 +41,7 @@ fun Application.mainModule() {
         registration()
         login()
         dashboard()
+        pageError()
 
     }
 }
