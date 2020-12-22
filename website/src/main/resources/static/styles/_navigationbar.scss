@@ -18,10 +18,10 @@
     text-decoration: none;
 
     transition: 320ms;
+  }
 
-    :hover {
-      color: white;
-      font-weight: bolder;
-    }
+  li a:hover {
+    color: white;
+    font-weight: bolder;
   }
 }

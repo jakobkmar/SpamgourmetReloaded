@@ -67,10 +67,18 @@ application.mainClass.set(main_class)
 // SCSS
 
 val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
-    srcDir = file("$projectDir/src/main/sass")
+    srcDir = file("$projectDir/src/main/resources/static/styles")
     outDir = file("$buildDir/resources/main/static/styles")
 
     minify = true
 }
 
 tasks.build.get().dependsOn(sassTask)
+
+sourceSets {
+    main {
+        resources {
+            exclude("static/styles")
+        }
+    }
+}
