@@ -10,9 +10,9 @@ val configManager = ConfigManager(File("."))
 val mongoDB = MongoDB(configManager.databaseLoginInformation)
 val db = Database(mongoDB)
 
-fun main() {
+fun main(args: Array<String>) {
 
     logInfo("Starting webserver...")
-    KtorManager.start()
+    io.ktor.server.netty.EngineMain.main(args)
 
 }
