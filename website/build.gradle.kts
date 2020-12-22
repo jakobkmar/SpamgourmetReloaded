@@ -7,7 +7,7 @@ import org.kravemir.gradle.sass.SassCompileTask
  */
 
 val main_class = "net.axay.spamgourmet.website.main.ManagerKt"
-val ktor_version = "1.4.3"
+val ktor_version = "1.5.0"
 
 /*
  * PLUGINS
