@@ -75,10 +75,4 @@ val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
 
 tasks.build.get().dependsOn(sassTask)
 
-sourceSets {
-    main {
-        resources {
-            exclude("static/styles")
-        }
-    }
-}
+sourceSets.main.get().resources.exclude("static/styles")
