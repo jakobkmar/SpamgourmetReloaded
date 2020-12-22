@@ -8,7 +8,6 @@ import java.time.Instant
 @Serializable
 class UserData(
     @SerialName("_id") val username: String,
-    val password: ByteArray,
     val realAddress: String,
     val settings: UserSettings = UserSettings(),
     val information: UserInfo
