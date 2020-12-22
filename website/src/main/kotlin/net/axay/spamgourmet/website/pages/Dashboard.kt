@@ -4,9 +4,9 @@ import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.routing.*
 import kotlinx.html.link
-import net.axay.spamgourmet.website.pages.common.*
+import net.axay.spamgourmet.website.pages.common.pageWrapper
 
-fun Routing.dashboard() {
+fun Routing.pageDashboard() {
 
     get("/dashboard") { call.respondHtml {
 
