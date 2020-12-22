@@ -28,7 +28,8 @@ fun Application.login() {
 
                 val verified = when (requiredLoginData.passwordAlgorithm) {
                     PasswordAlgorithm.BCRYPT ->
-                        BCrypt.verifyer().verify(credentials.password.toCharArray(), requiredLoginData.password).verified
+                        BCrypt.verifyer()
+                            .verify(credentials.password.toCharArray(), requiredLoginData.password).verified
                 }
 
                 if (verified) UserIdPrincipal(credentials.name) else null
