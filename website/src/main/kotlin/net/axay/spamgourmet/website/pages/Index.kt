@@ -66,6 +66,7 @@ fun Routing.pageIndex() {
 
                     div("signup_panel account_panel_part") {
                         h1 { +"SIGN UP" }
+                        a("/register") { +"SIGN UP" }
                     }
                 }
             }
