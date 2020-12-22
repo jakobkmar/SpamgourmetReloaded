@@ -28,7 +28,7 @@ html {
 
   transition: 320ms;
 
-  :hover {
+  &:hover {
     border-color: white;
   }
 
@@ -64,11 +64,11 @@ html {
       padding: 10px;
       margin-bottom: 10px;
 
-      :focus {
+      &:focus {
         outline-style: solid;
       }
 
-      ::placeholder {
+      &::placeholder {
         color: #585858;
         font-size: 12px;
       }
@@ -91,7 +91,7 @@ html {
 
       transition: 320ms;
 
-      :hover {
+      &:hover {
         background-color: #748096;
       }
     }
