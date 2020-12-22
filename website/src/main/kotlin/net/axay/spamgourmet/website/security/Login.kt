@@ -6,6 +6,7 @@ import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
+import net.axay.spamgourmet.common.data.PasswordAlgorithm
 import net.axay.spamgourmet.common.data.UserLoginData
 import net.axay.spamgourmet.website.main.db
 import org.litote.kmongo.eq
@@ -21,13 +22,16 @@ fun Application.login() {
             passwordParamName = "password"
             validate { credentials ->
 
-                val hashedPassword = db.userLoginData.findOne(
+                val requiredLoginData = db.userLoginData.findOne(
                     UserLoginData::username eq credentials.name
-                )?.password ?: return@validate null
+                ) ?: return@validate null
 
-                if (BCrypt.verifyer().verify(credentials.password.toCharArray(), hashedPassword).verified)
-                    UserIdPrincipal(credentials.name)
-                else null
+                val verified = when (requiredLoginData.passwordAlgorithm) {
+                    PasswordAlgorithm.BCRYPT ->
+                        BCrypt.verifyer().verify(credentials.password.toCharArray(), requiredLoginData.password).verified
+                }
+
+                if (verified) UserIdPrincipal(credentials.name) else null
 
             }
         }
