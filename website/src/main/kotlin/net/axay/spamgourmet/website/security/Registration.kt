@@ -24,35 +24,39 @@ class RegistrationPostData(
     val username: String
 )
 
-fun Routing.registration() = post("/register") {
+fun Routing.registration() {
 
-    val postData = call.receiveOrNull<RegistrationPostData>()
-    if (postData == null) {
-        call.respondRedirect("/error")
-        return@post
+    post("/register") {
+
+        val postData = call.receiveOrNull<RegistrationPostData>()
+        if (postData == null) {
+            call.respondRedirect("/error")
+            return@post
+        }
+
+        val hashedPassword = BCrypt.withDefaults().hash(12, postData.password.toCharArray())
+
+        val userLoginData = UserLoginData(
+            postData.username,
+            hashedPassword,
+            PasswordAlgorithm.BCRYPT
+        )
+
+        val userData = UserData(
+            postData.username,
+            postData.emailAddress,
+            information = UserInfo(joined = Instant.now())
+        )
+
+        val userLoginDataInsert = db.userLoginData.insertOneCatchDuplicate(userLoginData)
+        val userDataInsert = db.userData.insertOneCatchDuplicate(userData)
+
+        if (userLoginDataInsert.wasAcknowledged() && userDataInsert.wasAcknowledged()) {
+
+            call.respond(HttpStatusCode.OK)
+
+        } else call.respond(HttpStatusCode.NotAcceptable)
+
     }
-
-    val hashedPassword = BCrypt.withDefaults().hash(12, postData.password.toCharArray())
-
-    val userLoginData = UserLoginData(
-        postData.username,
-        hashedPassword,
-        PasswordAlgorithm.BCRYPT
-    )
-
-    val userData = UserData(
-        postData.username,
-        postData.emailAddress,
-        information = UserInfo(joined = Instant.now())
-    )
-
-    val userLoginDataInsert = db.userLoginData.insertOneCatchDuplicate(userLoginData)
-    val userDataInsert = db.userData.insertOneCatchDuplicate(userData)
-
-    if (userLoginDataInsert.wasAcknowledged() && userDataInsert.wasAcknowledged()) {
-
-        call.respond(HttpStatusCode.OK)
-
-    } else call.respond(HttpStatusCode.NotAcceptable)
 
 }
