@@ -7,6 +7,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
+import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.website.pages.pageDashboard
 import net.axay.spamgourmet.website.pages.pageError
 import net.axay.spamgourmet.website.pages.pageIndex
@@ -15,6 +16,9 @@ import net.axay.spamgourmet.website.security.login
 import net.axay.spamgourmet.website.security.registration
 
 fun Application.mainModule() {
+
+    if (developmentMode)
+        logInfo("Click this link for local testing: http://127.0.0.1:8080")
 
     login()
 
