@@ -73,6 +73,6 @@ val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
     minify = true
 }
 
-tasks.build.get().dependsOn(sassTask)
+tasks.processResources.get().dependsOn(sassTask)
 
 sourceSets.main.get().resources.exclude("static/styles")
