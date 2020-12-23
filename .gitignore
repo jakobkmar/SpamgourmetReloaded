@@ -3,5 +3,4 @@
 build/
 configs/
 gradle/
-*/src/test/
 config/
