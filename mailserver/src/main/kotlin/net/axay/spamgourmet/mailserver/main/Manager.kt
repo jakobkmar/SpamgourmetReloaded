@@ -1,10 +1,10 @@
 package net.axay.spamgourmet.mailserver.main
 
 import net.axay.blueutils.database.mongodb.MongoDB
-import net.axay.spamgourmet.mailserver.config.ConfigManager
-import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.mailserver.config.ConfigManager
+import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailHandler
 import net.axay.spamgourmet.mailserver.mail.SpamgourmetMailListener
 import org.subethamail.smtp.server.SMTPServer
