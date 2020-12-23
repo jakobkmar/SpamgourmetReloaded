@@ -6,6 +6,7 @@ import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
+import kotlinx.serialization.Serializable
 import net.axay.spamgourmet.common.data.PasswordAlgorithm
 import net.axay.spamgourmet.common.data.UserLoginData
 import net.axay.spamgourmet.website.main.db
@@ -13,6 +14,7 @@ import net.axay.spamgourmet.website.util.kotlinxSessionSerializer
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 
+@Serializable
 data class SessionCookie(val username: String)
 
 fun Sessions.Configuration.login() {
