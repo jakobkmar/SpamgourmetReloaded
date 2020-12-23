@@ -2,6 +2,7 @@ package net.axay.spamgourmet.website.main
 
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -20,6 +21,9 @@ fun Application.mainModule() {
         logInfo("Click this link for local testing: http://127.0.0.1:8080")
 
     this.login()
+
+    install(DefaultHeaders)
+    install(Compression)
 
     install(Sessions) {
         this.login()
