@@ -11,20 +11,18 @@ import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.website.pages.pageDashboard
 import net.axay.spamgourmet.website.pages.pageError
 import net.axay.spamgourmet.website.pages.pageIndex
-import net.axay.spamgourmet.website.security.SessionCookie
 import net.axay.spamgourmet.website.security.login
 import net.axay.spamgourmet.website.security.registration
-import net.axay.spamgourmet.website.util.kotlinxSessionSerializer
 
 fun Application.mainModule() {
 
     if (developmentMode)
         logInfo("Click this link for local testing: http://127.0.0.1:8080")
 
-    login()
+    this.login()
 
     install(Sessions) {
-        login()
+        this.login()
     }
 
     install(ContentNegotiation) {
@@ -37,16 +35,16 @@ fun Application.mainModule() {
             resources("static")
         }
 
-        pageIndex()
+        this.pageIndex()
 
         get("/github") {
             call.respondRedirect("https://github.com/bluefireoly/SpamgourmetReloaded")
         }
 
-        registration()
-        login()
-        pageDashboard()
-        pageError()
+        this.registration()
+        this.login()
+        this.pageDashboard()
+        this.pageError()
 
     }
 }
