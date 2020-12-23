@@ -19,7 +19,7 @@ plugins {
 
     application
 
-    kotlin("plugin.serialization") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.21"
 
     id("org.kravemir.gradle.sass") version "1.2.4"
 
