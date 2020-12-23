@@ -24,9 +24,7 @@ fun Application.mainModule() {
     login()
 
     install(Sessions) {
-        cookie<SessionCookie>("SESSION") {
-            serializer = kotlinxSessionSerializer()
-        }
+        login()
     }
 
     install(ContentNegotiation) {
