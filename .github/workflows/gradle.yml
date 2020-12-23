@@ -10,7 +10,17 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+
+  validateGradleWrapper:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Gradle Wrapper Validation
+      uses: gradle/wrapper-validation-action@v1
+
+
+  runJUnitTests:
 
     runs-on: ubuntu-latest
 
