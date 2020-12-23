@@ -37,6 +37,13 @@ repositories {
     mavenLocal()
 }
 
+dependencies {
+
+    // JUNIT
+    testImplementation("org.junit.jupiter", "junit-jupiter", "5.7.0")
+
+}
+
 /*
  * BUILD
  */
@@ -49,6 +56,12 @@ java.targetCompatibility = JVM_VERSION
 tasks {
     compileKotlin.configureJvmVersion()
     compileTestKotlin.configureJvmVersion()
+}
+
+// JUNIT
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 /*
