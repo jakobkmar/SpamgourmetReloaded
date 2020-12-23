@@ -1,9 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.MongoCollection
-import net.axay.spamgourmet.common.database.contains
-import net.axay.spamgourmet.database.data.AnswerAddressData
-import net.axay.spamgourmet.database.data.BounceAddressData
 import net.axay.spamgourmet.mailserver.main.Manager
 import net.axay.spamgourmet.mailserver.main.Constants
 import org.bson.conversions.Bson
@@ -16,7 +13,7 @@ object SpamgourmetAddressGenerator {
 
     fun generateAnswerAddress(username: String, answerAsAddress: String, answerToAddress: String, alternativeAllowed: String?): String {
 
-        return "${
+        /*return "${
             findKeyOrGenerateNewOneFromStringWhile(
                     username + answerToAddress,
                     Manager.dataManager.answerAddressCollection,
@@ -29,13 +26,15 @@ object SpamgourmetAddressGenerator {
                     { AnswerAddressData::address eq it },
                     { key -> AnswerAddressData(key, answerAsAddress, answerToAddress, username, alternativeAllowed?.let { listOf(it) }) }
             )
-        }.${Constants.ANSWER_ADDRESS_KEY}"
+        }.${Constants.ANSWER_ADDRESS_KEY}"*/
+
+        TODO("rebuild address generation")
 
     }
 
     fun generateSpamBounceAddress(username: String, spamgourmetUserAddress: String, userAddress: String): String {
 
-        return "${
+        /*return "${
             findKeyOrGenerateNewOneFromStringWhile(
                     username + spamgourmetUserAddress,
                     Manager.dataManager.spamBounceAddressCollection,
@@ -47,13 +46,15 @@ object SpamgourmetAddressGenerator {
                     { BounceAddressData::address eq it },
                     { BounceAddressData(it, username, spamgourmetUserAddress, userAddress) }
             )
-        }.${Constants.SPAM_BOUNCE_ADDRESS_KEY}"
+        }.${Constants.SPAM_BOUNCE_ADDRESS_KEY}"*/
+
+        TODO("rebuild address generation")
 
     }
 
     fun generateAnswerBounceAddress(username: String, spammerAddress: String): String {
 
-        return "${
+        /*return "${
             findKeyOrGenerateNewOneFromStringWhile(
                     username + spammerAddress,
                     Manager.dataManager.answerBounceAddressCollection,
@@ -65,7 +66,9 @@ object SpamgourmetAddressGenerator {
                     { BounceAddressData::address eq it },
                     { BounceAddressData(it, username, spammerAddress, spammerAddress) }
             )
-        }.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}"
+        }.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}"*/
+
+        TODO("rebuild address generation")
 
     }
 
@@ -78,7 +81,7 @@ object SpamgourmetAddressGenerator {
             crossinline objectToInsert: (key: String) -> E
     ): String {
 
-        // TODO multithreading critical point
+/*        // TODO multithreading critical point
 
         collection.findOne(filter)?.let { return ifFound.invoke(it) }
 
@@ -87,18 +90,22 @@ object SpamgourmetAddressGenerator {
         }
         collection.insertOne(objectToInsert.invoke(key))
 
-        return key
+        return key*/
+
+        TODO("rebuild address generation")
 
     }
 
     private fun generateKeyFromStringWhile(string: String, condition: (currentKey: String) -> Boolean): String {
 
-        var key = string.md5()
+/*        var key = string.md5()
 
         while (condition.invoke(key))
             key = (key + key.hashCode()).md5()
 
-        return key
+        return key*/
+
+        TODO("rebuild address generation")
 
     }
 
