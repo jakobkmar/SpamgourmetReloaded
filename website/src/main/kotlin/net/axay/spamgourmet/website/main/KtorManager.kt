@@ -14,6 +14,7 @@ import net.axay.spamgourmet.website.pages.pageIndex
 import net.axay.spamgourmet.website.security.SessionCookie
 import net.axay.spamgourmet.website.security.login
 import net.axay.spamgourmet.website.security.registration
+import net.axay.spamgourmet.website.util.kotlinxSessionSerializer
 
 fun Application.mainModule() {
 
@@ -23,7 +24,9 @@ fun Application.mainModule() {
     login()
 
     install(Sessions) {
-        cookie<SessionCookie>("SESSION")
+        cookie<SessionCookie>("SESSION") {
+            serializer = kotlinxSessionSerializer()
+        }
     }
 
     install(ContentNegotiation) {
