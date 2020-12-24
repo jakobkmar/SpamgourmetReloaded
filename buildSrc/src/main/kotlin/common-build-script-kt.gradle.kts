@@ -68,9 +68,6 @@ tasks.test {
  * EXTENSIONS
  */
 
-val JavaVersion.versionString: String get() = majorVersion.let {
-    val version = it.toInt()
-    if (version <= 10) "1.$it" else it
-}
+val JavaVersion.versionString: String get() = if (majorVersion.toInt() <= 10) "1.$majorVersion" else majorVersion
 
 fun TaskProvider<KotlinCompile>.configureJvmVersion() { get().kotlinOptions.jvmTarget = JVM_VERSION_STRING }
