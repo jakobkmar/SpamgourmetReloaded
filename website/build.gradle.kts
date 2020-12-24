@@ -32,6 +32,7 @@ plugins {
 kotlin {
     sourceSets {
         val jvmMain by getting {
+
             dependencies {
 
                 implementation(project(":common"))
@@ -58,6 +59,9 @@ kotlin {
                 implementation("at.favre.lib:bcrypt:0.9.0")
 
             }
+
+            resources.exclude("static/styles")
+
         }
     }
 }
@@ -75,11 +79,9 @@ application.mainClass.set(main_class)
 
 val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
     srcDir = file("$projectDir/src/jvmMain/resources/static/styles")
-    outDir = file("$buildDir/resources/jvmMain/static/styles")
+    outDir = file("$buildDir/processedResources/jvm/main/static/styles")
 
     minify = true
 }
 
 tasks.processResources.get().dependsOn(sassTask)
-
-sourceSets.main.get().resources.exclude("static/styles")
