@@ -16,20 +16,6 @@ val JVM_VERSION_STRING = JVM_VERSION.versionString
 group = "net.axay"
 version = "0.0.1"
 
-/*
- * PLUGINS
- */
-
-plugins {
-
-    kotlin("jvm")
-
-}
-
-/*
- * DEPENDENCY MANAGEMENT
- */
-
 repositories {
     mavenCentral()
     jcenter()
@@ -37,12 +23,30 @@ repositories {
     mavenLocal()
 }
 
-dependencies {
+/*
+ * PLUGINS
+ */
 
-    // JUNIT
-    testImplementation("org.junit.jupiter", "junit-jupiter", "5.7.0")
+plugins {
+
+    kotlin("multiplatform")
 
 }
+
+kotlin {
+    jvm()
+    sourceSets {
+        val jvmTest by getting {
+            dependencies {
+                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+            }
+        }
+    }
+}
+
+/*
+ * DEPENDENCY MANAGEMENT
+ */
 
 /*
  * BUILD
@@ -53,14 +57,13 @@ dependencies {
 java.sourceCompatibility = JVM_VERSION
 java.targetCompatibility = JVM_VERSION
 
-tasks {
-    compileKotlin.configureJvmVersion()
-    compileTestKotlin.configureJvmVersion()
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = JVM_VERSION_STRING
 }
 
 // JUNIT
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 
