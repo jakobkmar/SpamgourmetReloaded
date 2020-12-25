@@ -36,7 +36,7 @@ On the clientside, the webserver serves javascript which was compiled from [Kotl
 
 ### Work in progress
 
-Currently, the service is still in development. But it is planned to:
+Currently, the service is still in development. It is planned to:
    - use Docker
    - use Tailwind CSS for styling
 
