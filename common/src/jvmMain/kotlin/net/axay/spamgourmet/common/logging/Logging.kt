@@ -1,16 +1,25 @@
 package net.axay.spamgourmet.common.logging
 
-import java.io.PrintStream
+import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.terminal.TextColors.*
 
-fun log(message: Any?, stream: PrintStream = System.out, prefix: String = "") {
-    stream.println("$prefix >> $message")
+private val t = Terminal()
+
+fun log(message: Any?, prefix: String = "") {
+    t.println("$prefix ${gray(">>")} $message")
 }
 
-fun logInfo(message: Any?, stream: PrintStream = System.out) =
-    log(message, stream, "INFO")
+fun logInfo(message: Any?) =
+    log((brightWhite)(message.toString()), white("INFO"))
 
-fun logWarning(message: Any?, stream: PrintStream = System.out) =
-    log(message, stream, "WARN")
+fun logMajorInfo(message: Any?) =
+    log((brightWhite)(message.toString()), magenta("INFO"))
 
-fun logError(message: Any?, stream: PrintStream = System.err) =
-    log(message, stream, "ERROR")
+fun logSuccess(message: Any?) =
+    log((brightWhite)(message.toString()), green("INFO"))
+
+fun logWarning(message: Any?) =
+    log((yellow)(message.toString()), brightYellow("WARN"))
+
+fun logError(message: Any?) =
+    log((red)(message.toString()), brightRed("ERROR"))
