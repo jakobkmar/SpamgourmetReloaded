@@ -18,7 +18,10 @@ import org.litote.kmongo.findOne
 data class SessionCookie(val username: String)
 
 fun Sessions.Configuration.login() {
-    cookie<SessionCookie>("SESSION") {
+    cookie<SessionCookie>(
+        "SESSION",
+        storage = SessionStorageMemory()
+    ) {
         serializer = kotlinxSessionSerializer()
     }
 }
