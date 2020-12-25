@@ -5,10 +5,10 @@ package net.axay.spamgourmet.common.logging
 import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.terminal.TextColors.*
 
-private val t = Terminal()
+val terminal = Terminal()
 
 fun log(message: Any?, prefix: String = "") {
-    t.println("$prefix ${gray(">>")} $message")
+    terminal.println("$prefix ${gray(">>")} $message")
 }
 
 fun logInfo(message: Any?) =
