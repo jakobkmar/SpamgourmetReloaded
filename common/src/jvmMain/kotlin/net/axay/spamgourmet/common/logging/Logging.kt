@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package net.axay.spamgourmet.common.logging
 
 import com.github.ajalt.mordant.terminal.Terminal
