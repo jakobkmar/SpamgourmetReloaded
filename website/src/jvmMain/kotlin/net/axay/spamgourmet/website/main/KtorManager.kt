@@ -8,6 +8,8 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.sessions.*
 import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logMajorInfo
+import net.axay.spamgourmet.common.logging.logSuccess
 import net.axay.spamgourmet.website.pages.pageDashboard
 import net.axay.spamgourmet.website.pages.pageError
 import net.axay.spamgourmet.website.pages.pageIndex
@@ -50,4 +52,9 @@ fun Application.mainModule() {
         this.pageError()
 
     }
+
+    environment.monitor.subscribe(ApplicationStarted) {
+        logSuccess("Started application")
+    }
+
 }
