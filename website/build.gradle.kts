@@ -30,7 +30,18 @@ plugins {
  */
 
 kotlin {
+
+    js {
+        browser {
+            @Suppress("EXPERIMENTAL_API_USAGE")
+            distribution {
+                directory = File("$buildDir/processedResources/jvm/main/static/scripts")
+            }
+        }
+    }
+
     sourceSets {
+
         val jvmMain by getting {
 
             dependencies {
@@ -63,6 +74,7 @@ kotlin {
             resources.exclude("static/styles")
 
         }
+
     }
 }
 
@@ -84,4 +96,4 @@ val sassTask by tasks.register("sassCompile", SassCompileTask::class) {
     minify = true
 }
 
-tasks.processResources.get().dependsOn(sassTask)
+tasks.jvmProcessResources.get().dependsOn(sassTask)
