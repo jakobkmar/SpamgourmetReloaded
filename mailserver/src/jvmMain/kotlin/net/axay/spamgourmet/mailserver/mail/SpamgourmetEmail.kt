@@ -3,6 +3,7 @@ package net.axay.spamgourmet.mailserver.mail
 import com.mongodb.client.model.ReturnDocument
 import net.axay.blueutils.database.mongodb.asKMongoId
 import net.axay.spamgourmet.common.data.*
+import net.axay.spamgourmet.common.logging.logError
 import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
@@ -38,7 +39,7 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                 try {
                     spamgourmetEmail?.process(recipient)
                 } catch (exc: Throwable) {
-                    logInfo("An error occured while processing an email:", System.err)
+                    logError("An error occured while processing an email:")
                     exc.printStackTrace()
                 }
 
