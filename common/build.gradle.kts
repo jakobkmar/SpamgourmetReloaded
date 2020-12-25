@@ -21,6 +21,9 @@ kotlin {
                 api("org.litote.kmongo:kmongo-core:4.2.0")
                 api("org.litote.kmongo:kmongo-serialization-mapping:4.2.0")
 
+                // MORDANT
+                implementation("com.github.ajalt.mordant:mordant:2.0.0-alpha1")
+
             }
         }
     }
