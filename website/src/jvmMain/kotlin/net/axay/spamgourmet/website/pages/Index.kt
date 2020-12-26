@@ -4,6 +4,7 @@ import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.routing.*
 import kotlinx.html.*
+import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.website.pages.common.pageWrapper
 import net.axay.spamgourmet.website.security.session
 import net.axay.spamgourmet.website.util.svgObject
@@ -15,6 +16,7 @@ fun Routing.pageIndex() {
         pageWrapper("Home",
             head = {
                 link("/static/styles/index.css", "stylesheet")
+                script { src = "/static/scripts/website.js" }
             }
         ) {
 
