@@ -18,7 +18,7 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
     protected val email = EmailConverter.mimeMessageToEmail(mimeMessage)
 
-    abstract fun process(recipient: SpamgourmetAddress)
+    abstract suspend fun process(recipient: SpamgourmetAddress)
 
     companion object {
 
@@ -51,7 +51,7 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 }
 
 class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // FORWARD TO USER
 
@@ -119,7 +119,7 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 }
 
 class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // ANSWER TO SPAMMER
 
@@ -168,7 +168,7 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
 }
 
 class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE SPAM BOUNCE
 
@@ -201,7 +201,7 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
 }
 
 class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE ANSWER BOUNCE
 
