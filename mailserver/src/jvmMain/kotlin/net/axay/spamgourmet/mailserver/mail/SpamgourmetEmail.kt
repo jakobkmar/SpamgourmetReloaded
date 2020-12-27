@@ -24,8 +24,8 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
     companion object {
 
         fun process(recipients: List<String>, mimeMessage: MimeMessage) {
-            COROUTINE_SCOPE.launch {
-                recipients.forEach {
+            recipients.forEach {
+                COROUTINE_SCOPE.launch {
 
                     // get address type
                     val recipient = SpamgourmetAddress(it)
