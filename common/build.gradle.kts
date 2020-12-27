@@ -12,7 +12,7 @@ kotlin {
             dependencies {
 
                 // BLUEUTILS
-                api("net.axay:BlueUtils:1.0.3")
+                api("net.axay:BlueUtils:1.0.4")
 
                 // SERIALIZATION
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
