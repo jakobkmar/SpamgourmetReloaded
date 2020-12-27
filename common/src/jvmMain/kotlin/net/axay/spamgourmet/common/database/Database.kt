@@ -1,10 +1,10 @@
 package net.axay.spamgourmet.common.database
 
-import net.axay.blueutils.database.mongodb.MongoDB
+import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.main.Values
 
-class Database(mongoDB: MongoDB) {
+class Database(mongoDB: CoroutineMongoDB) {
 
     val userData =
         mongoDB.getCollectionOrCreate<UserData>("${Values.DATA_PREFIX}user_data")

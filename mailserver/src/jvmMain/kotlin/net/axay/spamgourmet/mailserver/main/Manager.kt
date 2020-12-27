@@ -1,6 +1,6 @@
 package net.axay.spamgourmet.mailserver.main
 
-import net.axay.blueutils.database.mongodb.MongoDB
+import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.mailserver.config.ConfigManager
@@ -29,7 +29,7 @@ object Manager {
         }
     }
 
-    private val mongoDB = MongoDB(configManager.mainConfig.databaseLoginInformation)
+    private val mongoDB = CoroutineMongoDB(configManager.mainConfig.databaseLoginInformation)
     val database = Database(mongoDB)
 
     fun start() {
