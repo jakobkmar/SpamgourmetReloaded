@@ -26,4 +26,7 @@ class Database(mongoDB: MongoDB) {
     val spamBounceAddressData =
         mongoDB.getCollectionOrCreate<SpamBounceAddressData>("${Values.DATA_PREFIX}spam_bounce_address_data")
 
+    val sessionData =
+        mongoDB.getCollectionOrCreate<SessionData>("${Values.DATA_PREFIX}session_data")
+
 }
