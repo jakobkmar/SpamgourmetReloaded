@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import net.axay.blueutils.database.mongodb.asKMongoId
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.logging.logError
+import net.axay.spamgourmet.common.logging.logWarning
 import net.axay.spamgourmet.common.main.COROUTINE_SCOPE
 import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
@@ -40,9 +41,12 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                     // process the email
                     try {
                         spamgourmetEmail?.process(recipient)
-                    } catch (exc: Throwable) {
+                    } catch (exc: Exception) {
                         logError("An error occured while processing an email:")
                         exc.printStackTrace()
+                    } catch (throwable: Throwable) {
+                        logWarning("Something went wrong while processing an email:")
+                        throwable.printStackTrace()
                     }
 
                 }
