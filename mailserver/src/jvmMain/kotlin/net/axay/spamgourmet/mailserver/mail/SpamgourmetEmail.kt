@@ -31,10 +31,14 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
                     // get address type
                     val recipient = SpamgourmetAddress(it)
                     val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
-                        SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS -> SpamgourmetSpamEmail(mimeMessage)
-                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS -> SpamgourmetAnswerEmail(mimeMessage)
-                        SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS -> SpamgourmetSpamBounceEmail(mimeMessage)
-                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS ->
+                            SpamgourmetSpamEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS ->
+                            SpamgourmetAnswerEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS ->
+                            SpamgourmetSpamBounceEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS ->
+                            SpamgourmetAnswerBounceEmail(mimeMessage)
                         else -> null
                     }
 
