@@ -3,6 +3,8 @@ package net.axay.spamgourmet.mailserver.main
 import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logMajorInfo
+import net.axay.spamgourmet.common.logging.logSuccess
 import net.axay.spamgourmet.mailserver.config.ConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailHandler
@@ -31,7 +33,7 @@ object Manager {
     fun start() {
         try {
 
-            logInfo("Starting program...")
+            logMajorInfo("Starting mailserver...")
 
             ConsoleListener.listen()
 
@@ -39,7 +41,7 @@ object Manager {
 
             mailHandler.register(SpamgourmetMailListener)
 
-            logInfo("Program started!")
+            logSuccess("Started mailserver!")
 
         } catch (exc: Exception) {
             exc.printStackTrace()
