@@ -8,10 +8,10 @@ object MailSender {
 
     private val mailer = MailerBuilder
         .withSMTPServer(
-                Manager.configManager.mainConfig.smtpLoginInformation.host,
-                Manager.configManager.mainConfig.smtpLoginInformation.port,
-                Manager.configManager.mainConfig.smtpLoginInformation.username,
-                Manager.configManager.mainConfig.smtpLoginInformation.password
+                Manager.configManager.smtpLoginInformation.host,
+                Manager.configManager.smtpLoginInformation.port,
+                Manager.configManager.smtpLoginInformation.username,
+                Manager.configManager.smtpLoginInformation.password
         )
         .clearEmailAddressCriteria()
         .buildMailer()

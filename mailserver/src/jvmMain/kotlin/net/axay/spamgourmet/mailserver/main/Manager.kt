@@ -5,11 +5,12 @@ import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.common.logging.logMajorInfo
 import net.axay.spamgourmet.common.logging.logSuccess
-import net.axay.spamgourmet.mailserver.config.ConfigManager
+import net.axay.spamgourmet.mailserver.config.MailserverConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailHandler
 import net.axay.spamgourmet.mailserver.mail.SpamgourmetMailListener
 import org.subethamail.smtp.server.SMTPServer
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main() {
@@ -20,14 +21,14 @@ val db get() = Manager.database
 
 object Manager {
 
-    val configManager = ConfigManager()
+    val configManager = MailserverConfigManager(File("."))
 
     private val mailHandler = MailHandler()
     private val smtpServer = SMTPServer(mailHandler).apply {
         port = 25
     }
 
-    private val mongoDB = CoroutineMongoDB(configManager.mainConfig.databaseLoginInformation)
+    private val mongoDB = CoroutineMongoDB(configManager.databaseLoginInformation)
     val database = Database(mongoDB)
 
     fun start() {
