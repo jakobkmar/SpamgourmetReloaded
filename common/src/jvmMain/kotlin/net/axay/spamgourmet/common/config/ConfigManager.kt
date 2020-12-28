@@ -2,12 +2,15 @@ package net.axay.spamgourmet.common.config
 
 import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.gson.jsonConfig
+import net.axay.spamgourmet.common.data.SMTPLoginInformation
 import java.io.File
 
-class ConfigManager(applicationFolder: File) {
+open class ConfigManager(applicationFolder: File) {
     private val configFolder = File(applicationFolder, "/config/")
 
-    val databaseLoginInformation by jsonConfig(File(configFolder, "databaseLoginInformation.json")) {
+    protected inner class ConfigFile(path: String) : File(configFolder, path)
+
+    val databaseLoginInformation by jsonConfig(ConfigFile("databaseLoginInformation.json")) {
         DatabaseLoginInformation.NOTSET_DEFAULT
     }
 }
