@@ -21,12 +21,8 @@ object Manager {
     val configManager = ConfigManager()
 
     private val mailHandler = MailHandler()
-    private val smtpServer = SMTPServer(mailHandler)
-    init {
-        smtpServer.apply {
-            // set host data
-            port = 25
-        }
+    private val smtpServer = SMTPServer(mailHandler).apply {
+        port = 25
     }
 
     private val mongoDB = CoroutineMongoDB(configManager.mainConfig.databaseLoginInformation)
