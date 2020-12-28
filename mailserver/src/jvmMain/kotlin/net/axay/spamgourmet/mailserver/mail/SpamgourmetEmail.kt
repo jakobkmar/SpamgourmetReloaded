@@ -93,8 +93,8 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 
         // reduce uses left
         db.userAddressData.updateOne(
-                UserAddressData::address eq recipient.firstPart,
-                setValue(UserAddressData::usesLeft, userAddressData.usesLeft - 1)
+            UserAddressData::address eq recipient.firstPart,
+            setValue(UserAddressData::usesLeft, userAddressData.usesLeft - 1)
         )
 
         // load forward recipient
@@ -102,26 +102,26 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 
         // load answer address
         val answerAddress = SpamgourmetAddress(
-                SpamgourmetAddressGenerator.generateAnswerAddress(
-                        username, recipient.firstPart, fromAddress, userAddressData.settings?.alternateForwardTo
-                ),
-                true
+            SpamgourmetAddressGenerator.generateAnswerAddress(
+                username, recipient.firstPart, fromAddress, userAddressData.settings?.alternateForwardTo
+            ),
+            true
         ).fullAddress
 
         // load bounce address
         val bounceAddress = SpamgourmetAddress(
-                SpamgourmetAddressGenerator.generateSpamBounceAddress(username, userAddressData.address, forwardToAddress),
-                true
+            SpamgourmetAddressGenerator.generateSpamBounceAddress(username, userAddressData.address, forwardToAddress),
+            true
         ).fullAddress
 
         // create forward email
         val emailBuilder = EmailBuilder.copying(email)
 
         emailBuilder
-                .clearRecipients()
-                .withReplyTo(answerAddress)
-                .withBounceTo(bounceAddress)
-                .to(forwardToAddress)
+            .clearRecipients()
+            .withReplyTo(answerAddress)
+            .withBounceTo(bounceAddress)
+            .to(forwardToAddress)
 
         // forward mail
         MailSender.sendMail(emailBuilder.buildEmail())
@@ -136,7 +136,7 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
 
         // load answer address or return
         val answerAddressData = db.answerAddressData.findOne(AnswerAddressData::address eq recipient.firstPartValues[0])
-                ?: return
+            ?: return
 
         // load user data
         val userData = db.userData.findOne(UserData::username eq answerAddressData.forUser) ?: return
@@ -147,16 +147,19 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
             // load from address or return
             val fromAddress = email.fromRecipient?.address ?: return
 
-            if (!(
-                fromAddress == userData.realAddress ||
-                answerAddressData.settings.additionalUserAddresses.contains(fromAddress)
-            )) return
+            if (
+                fromAddress != userData.realAddress &&
+                !answerAddressData.settings.additionalUserAddresses.contains(fromAddress)
+            ) return
 
         }
 
         val bounceAddress = SpamgourmetAddress(
-                SpamgourmetAddressGenerator.generateAnswerBounceAddress(answerAddressData.forUser, answerAddressData.answerToAddress),
-                true
+            SpamgourmetAddressGenerator.generateAnswerBounceAddress(
+                answerAddressData.forUser,
+                answerAddressData.answerToAddress
+            ),
+            true
         ).fullAddress
 
         val answerAsAddress = SpamgourmetAddress(answerAddressData.answerAsAddress, true).fullAddress
@@ -165,12 +168,12 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
         val emailBuilder = EmailBuilder.copying(email)
 
         emailBuilder
-                .clearSenderData()
-                .clearRecipients()
-                .from(answerAsAddress)
-                .withReplyTo(answerAsAddress)
-                .withBounceTo(bounceAddress)
-                .to(answerAddressData.answerToAddress)
+            .clearSenderData()
+            .clearRecipients()
+            .from(answerAsAddress)
+            .withReplyTo(answerAsAddress)
+            .withBounceTo(bounceAddress)
+            .to(answerAddressData.answerToAddress)
 
         // send answer mail
         MailSender.sendMail(emailBuilder.buildEmail())
@@ -186,7 +189,8 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
         val fromAddress = email.fromRecipient?.address ?: return
 
         // load bounce address data
-        val bounceAddressData = db.spamBounceAddressData.findOne(SpamBounceAddressData::address eq recipient.firstPartValues[0])
+        val bounceAddressData =
+            db.spamBounceAddressData.findOne(SpamBounceAddressData::address eq recipient.firstPartValues[0])
                 ?: return
 
         // check if sender address is valid (not safe)
@@ -235,13 +239,13 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
 
         // create mail info about bounce
         val bounceInformationEmail = EmailBuilder.startingBlank()
-                .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
-                .to(userData.realAddress)
-                .withBounceTo("<>")
-                .withReplyTo(SpamgourmetAddress(Constants.NO_REPLY_ADDRESS_KEY, true).fullAddress)
-                .withSubject("Bounce information")
-                .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
-                .buildEmail()
+            .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
+            .to(userData.realAddress)
+            .withBounceTo("<>")
+            .withReplyTo(SpamgourmetAddress(Constants.NO_REPLY_ADDRESS_KEY, true).fullAddress)
+            .withSubject("Bounce information")
+            .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
+            .buildEmail()
 
         MailSender.sendMail(bounceInformationEmail)
 
