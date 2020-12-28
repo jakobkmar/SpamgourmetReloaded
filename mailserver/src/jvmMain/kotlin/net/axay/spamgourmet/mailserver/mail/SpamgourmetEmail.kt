@@ -110,7 +110,7 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 
         // load bounce address
         val bounceAddress = SpamgourmetAddress(
-            SpamgourmetAddressGenerator.generateSpamBounceAddress(username, userAddressData.address, forwardToAddress),
+            SpamgourmetAddressGenerator.generateSpamBounceAddress(username, userAddressData.address),
             true
         ).fullAddress
 
