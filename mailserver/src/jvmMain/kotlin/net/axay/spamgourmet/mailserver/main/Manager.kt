@@ -1,8 +1,10 @@
 package net.axay.spamgourmet.mailserver.main
 
-import net.axay.blueutils.database.mongodb.MongoDB
+import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logMajorInfo
+import net.axay.spamgourmet.common.logging.logSuccess
 import net.axay.spamgourmet.mailserver.config.ConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailHandler
@@ -21,21 +23,17 @@ object Manager {
     val configManager = ConfigManager()
 
     private val mailHandler = MailHandler()
-    private val smtpServer = SMTPServer(mailHandler)
-    init {
-        smtpServer.apply {
-            // set host data
-            port = 25
-        }
+    private val smtpServer = SMTPServer(mailHandler).apply {
+        port = 25
     }
 
-    private val mongoDB = MongoDB(configManager.mainConfig.databaseLoginInformation)
+    private val mongoDB = CoroutineMongoDB(configManager.mainConfig.databaseLoginInformation)
     val database = Database(mongoDB)
 
     fun start() {
         try {
 
-            logInfo("Starting program...")
+            logMajorInfo("Starting mailserver...")
 
             ConsoleListener.listen()
 
@@ -43,7 +41,7 @@ object Manager {
 
             mailHandler.register(SpamgourmetMailListener)
 
-            logInfo("Program started!")
+            logSuccess("Started mailserver!")
 
         } catch (exc: Exception) {
             exc.printStackTrace()

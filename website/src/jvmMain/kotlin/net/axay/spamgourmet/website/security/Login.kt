@@ -13,7 +13,6 @@ import net.axay.spamgourmet.website.main.db
 import net.axay.spamgourmet.website.util.MongoDBSessionStorage
 import net.axay.spamgourmet.website.util.kotlinxSessionSerializer
 import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
 
 @Serializable
 data class SessionCookie(val username: String)

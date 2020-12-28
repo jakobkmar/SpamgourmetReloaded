@@ -8,8 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import net.axay.spamgourmet.common.data.SessionData
 import net.axay.spamgourmet.website.main.db
 import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.save
 
 class MongoDBSessionStorage : SessionStorage {
     override suspend fun invalidate(id: String) {

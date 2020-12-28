@@ -1,10 +1,12 @@
 package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.model.ReturnDocument
+import kotlinx.coroutines.launch
 import net.axay.blueutils.database.mongodb.asKMongoId
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.logging.logError
-import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logWarning
+import net.axay.spamgourmet.common.main.COROUTINE_SCOPE
 import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
 import org.litote.kmongo.*
@@ -18,31 +20,36 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
     protected val email = EmailConverter.mimeMessageToEmail(mimeMessage)
 
-    abstract fun process(recipient: SpamgourmetAddress)
+    abstract suspend fun process(recipient: SpamgourmetAddress)
 
     companion object {
 
         fun process(recipients: List<String>, mimeMessage: MimeMessage) {
             recipients.forEach {
+                COROUTINE_SCOPE.launch {
 
-                // get address type
-                val recipient = SpamgourmetAddress(it)
-                val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
-                    SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS -> SpamgourmetSpamEmail(mimeMessage)
-                    SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS -> SpamgourmetAnswerEmail(mimeMessage)
-                    SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS -> SpamgourmetSpamBounceEmail(mimeMessage)
-                    SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
-                    else -> null
+                    // get address type
+                    val recipient = SpamgourmetAddress(it)
+                    val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
+                        SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS -> SpamgourmetSpamEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS -> SpamgourmetAnswerEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS -> SpamgourmetSpamBounceEmail(mimeMessage)
+                        SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS -> SpamgourmetAnswerBounceEmail(mimeMessage)
+                        else -> null
+                    }
+
+                    // process the email
+                    try {
+                        spamgourmetEmail?.process(recipient)
+                    } catch (exc: Exception) {
+                        logError("An error occured while processing an email:")
+                        exc.printStackTrace()
+                    } catch (throwable: Throwable) {
+                        logWarning("Something went wrong while processing an email:")
+                        throwable.printStackTrace()
+                    }
+
                 }
-
-                // process the email
-                try {
-                    spamgourmetEmail?.process(recipient)
-                } catch (exc: Throwable) {
-                    logError("An error occured while processing an email:")
-                    exc.printStackTrace()
-                }
-
             }
         }
 
@@ -51,7 +58,7 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 }
 
 class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // FORWARD TO USER
 
@@ -119,7 +126,7 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
 }
 
 class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // ANSWER TO SPAMMER
 
@@ -168,7 +175,7 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
 }
 
 class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE SPAM BOUNCE
 
@@ -182,7 +189,7 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
         if (fromAddress != bounceAddressData.userAddress) return
 
         // save bounce to database
-        db.bounceData.insertOne(
+        val id = db.bounceData.insertOne(
             BounceData(
                 time = Instant.now(),
                 type = BounceType.SPAM_BOUNCE,
@@ -190,7 +197,8 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
                 to = recipient.fullAddress,
                 subject = email.subject ?: ""
             )
-        ).insertedId?.asKMongoId<BounceData>()?.let { id ->
+        ).insertedId?.asKMongoId<BounceData>()
+        if (id != null) {
             db.userBounceData.updateOne(
                 UserBounceData::username eq bounceAddressData.informUser,
                 addToSet(UserBounceData::bounces, id)
@@ -201,7 +209,7 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
 }
 
 class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
-    override fun process(recipient: SpamgourmetAddress) {
+    override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE ANSWER BOUNCE
 
