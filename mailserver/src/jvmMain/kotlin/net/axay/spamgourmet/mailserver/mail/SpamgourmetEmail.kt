@@ -1,15 +1,17 @@
 package net.axay.spamgourmet.mailserver.mail
 
-import com.mongodb.client.model.ReturnDocument
 import kotlinx.coroutines.launch
 import net.axay.blueutils.database.mongodb.asKMongoId
+import net.axay.blueutils.database.mongodb.insertOneCatchDuplicate
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.logging.logError
 import net.axay.spamgourmet.common.logging.logWarning
 import net.axay.spamgourmet.common.main.COROUTINE_SCOPE
 import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
-import org.litote.kmongo.*
+import org.litote.kmongo.addToSet
+import org.litote.kmongo.eq
+import org.litote.kmongo.setValue
 import org.simplejavamail.api.email.EmailPopulatingBuilder
 import org.simplejavamail.converter.EmailConverter
 import org.simplejavamail.email.EmailBuilder
@@ -75,13 +77,11 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
         val userData = db.userData.findOne(UserData::username eq username) ?: return
 
         // load user address or create new one
-        val userAddressData = db.userAddressData.findOneAndUpdate(
-            UserAddressData::address eq recipient.firstPart,
-            and(
-                setOnInsert(UserAddressData::address, recipient.firstPart),
-                setOnInsert(UserAddressData::usesLeft, recipient.firstPartValues[1].toInt())
-            ),
-            findOneAndUpdateUpsert().returnDocument(ReturnDocument.AFTER)
+        db.userAddressData.insertOneCatchDuplicate(
+            UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt())
+        )
+        val userAddressData = db.userAddressData.findOne(
+            UserAddressData::address eq recipient.firstPart
         ) ?: throw IllegalStateException("Could not find any UserAddressData document in the collection")
 
         // check uses left
