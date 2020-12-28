@@ -1,11 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
-import com.mongodb.client.MongoCollection
-import net.axay.spamgourmet.mailserver.main.Manager
-import net.axay.spamgourmet.mailserver.main.Constants
 import org.bson.conversions.Bson
-import org.litote.kmongo.and
-import org.litote.kmongo.findOne
 import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter
 
@@ -74,7 +69,7 @@ object SpamgourmetAddressGenerator {
 
     private inline fun <E> findKeyOrGenerateNewOneFromStringWhile(
             string: String,
-            collection: MongoCollection<E>,
+            //collection: MongoCollection<E>,
             filter: Bson,
             crossinline ifFound: (foundObject: E) -> String,
             crossinline generateWhile: (currentKey: String) -> Bson,
