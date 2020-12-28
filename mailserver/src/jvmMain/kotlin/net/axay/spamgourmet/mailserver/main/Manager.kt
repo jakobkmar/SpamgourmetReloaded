@@ -54,7 +54,7 @@ object Manager {
 
         smtpServer.stop()
 
-        logInfo("Program stopped!")
+        logMajorInfo("Program stopped!")
 
         exitProcess(1)
 
