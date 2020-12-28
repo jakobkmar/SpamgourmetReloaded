@@ -1,106 +1,126 @@
 package net.axay.spamgourmet.mailserver.mail
 
+import net.axay.blueutils.database.mongodb.contains
+import net.axay.spamgourmet.common.data.AnswerAddressData
+import net.axay.spamgourmet.common.data.AnswerAddressSettings
+import net.axay.spamgourmet.common.data.AnswerBounceAddressData
+import net.axay.spamgourmet.common.data.SpamBounceAddressData
+import net.axay.spamgourmet.mailserver.main.Constants
+import net.axay.spamgourmet.mailserver.main.db
 import org.bson.conversions.Bson
+import org.litote.kmongo.and
+import org.litote.kmongo.coroutine.CoroutineCollection
+import org.litote.kmongo.eq
 import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter
 
 object SpamgourmetAddressGenerator {
 
-    fun generateAnswerAddress(username: String, answerAsAddress: String, answerToAddress: String, alternativeAllowed: String?): String {
-
-        /*return "${
-            findKeyOrGenerateNewOneFromStringWhile(
-                    username + answerToAddress,
-                    Manager.dataManager.answerAddressCollection,
-                    and(
-                            AnswerAddressData::forUser eq username,
-                            AnswerAddressData::answerAsAddress eq answerAsAddress,
-                            AnswerAddressData::answerToAddress eq answerToAddress
-                    ),
-                    { "${it.address}.${Constants.ANSWER_ADDRESS_KEY}" },
-                    { AnswerAddressData::address eq it },
-                    { key -> AnswerAddressData(key, answerAsAddress, answerToAddress, username, alternativeAllowed?.let { listOf(it) }) }
-            )
-        }.${Constants.ANSWER_ADDRESS_KEY}"*/
-
-        TODO("rebuild address generation")
-
-    }
-
-    fun generateSpamBounceAddress(username: String, spamgourmetUserAddress: String, userAddress: String): String {
-
-        /*return "${
-            findKeyOrGenerateNewOneFromStringWhile(
-                    username + spamgourmetUserAddress,
-                    Manager.dataManager.spamBounceAddressCollection,
-                    and(
-                            BounceAddressData::informUser eq username,
-                            BounceAddressData::forAddress eq spamgourmetUserAddress
-                    ),
-                    { "${it.address}.${Constants.SPAM_BOUNCE_ADDRESS_KEY}" },
-                    { BounceAddressData::address eq it },
-                    { BounceAddressData(it, username, spamgourmetUserAddress, userAddress) }
-            )
-        }.${Constants.SPAM_BOUNCE_ADDRESS_KEY}"*/
-
-        TODO("rebuild address generation")
-
-    }
-
-    fun generateAnswerBounceAddress(username: String, spammerAddress: String): String {
-
-        /*return "${
-            findKeyOrGenerateNewOneFromStringWhile(
-                    username + spammerAddress,
-                    Manager.dataManager.answerBounceAddressCollection,
-                    and(
-                            BounceAddressData::informUser eq username,
-                            BounceAddressData::forAddress eq spammerAddress
-                    ),
-                    { "${it.address}.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}" },
-                    { BounceAddressData::address eq it },
-                    { BounceAddressData(it, username, spammerAddress, spammerAddress) }
-            )
-        }.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}"*/
-
-        TODO("rebuild address generation")
-
-    }
-
-    private inline fun <E> findKeyOrGenerateNewOneFromStringWhile(
-            string: String,
-            //collection: MongoCollection<E>,
-            filter: Bson,
-            crossinline ifFound: (foundObject: E) -> String,
-            crossinline generateWhile: (currentKey: String) -> Bson,
-            crossinline objectToInsert: (key: String) -> E
+    suspend fun generateAnswerAddress(
+        username: String,
+        answerAsAddress: String,
+        answerToAddress: String,
+        alternativeForwardTo: String?
     ): String {
 
-/*        // TODO multithreading critical point
+        return "${
+            findKeyOrGenerateNewOneFromStringWhile(
+                username + answerToAddress,
+                db.answerAddressData,
+                and(
+                    AnswerAddressData::forUser eq username,
+                    AnswerAddressData::answerAsAddress eq answerAsAddress,
+                    AnswerAddressData::answerToAddress eq answerToAddress
+                ),
+                { "${it.address}.${Constants.ANSWER_ADDRESS_KEY}" },
+                { AnswerAddressData::address eq it },
+                {
+                    AnswerAddressData(
+                        it, answerAsAddress, answerToAddress, username,
+                        AnswerAddressSettings(
+                            additionalUserAddresses = if (alternativeForwardTo != null)
+                                linkedSetOf(alternativeForwardTo)
+                            else LinkedHashSet()
+                        )
+                    )
+                }
+            )
+        }.${Constants.ANSWER_ADDRESS_KEY}"
 
-        collection.findOne(filter)?.let { return ifFound.invoke(it) }
+    }
+
+    suspend fun generateSpamBounceAddress(
+        username: String,
+        userAddress: String
+    ): String {
+
+        return "${
+            findKeyOrGenerateNewOneFromStringWhile(
+                username + userAddress,
+                db.spamBounceAddressData,
+                and(
+                    SpamBounceAddressData::informUser eq username,
+                    SpamBounceAddressData::userAddress eq userAddress
+                ),
+                { "${it.address}.${Constants.SPAM_BOUNCE_ADDRESS_KEY}" },
+                { SpamBounceAddressData::address eq it },
+                { SpamBounceAddressData(it, username, userAddress) }
+            )
+        }.${Constants.SPAM_BOUNCE_ADDRESS_KEY}"
+
+    }
+
+    suspend fun generateAnswerBounceAddress(username: String, spammerAddress: String): String {
+
+        return "${
+            findKeyOrGenerateNewOneFromStringWhile(
+                username + spammerAddress,
+                db.answerBounceAddressData,
+                and(
+                    AnswerBounceAddressData::informUser eq username,
+                    AnswerBounceAddressData::spammerAddress eq spammerAddress
+                ),
+                { "${it.address}.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}" },
+                { AnswerBounceAddressData::address eq it },
+                { AnswerBounceAddressData(it, username, spammerAddress, spammerAddress) }
+            )
+        }.${Constants.ANSWER_BOUNCE_ADDRESS_KEY}"
+
+    }
+
+    private suspend inline fun <E : Any> findKeyOrGenerateNewOneFromStringWhile(
+        string: String,
+        collection: CoroutineCollection<E>,
+        filter: Bson,
+        crossinline ifFound: (foundObject: E) -> String,
+        crossinline generateWhile: (currentKey: String) -> Bson,
+        crossinline objectToInsert: (key: String) -> E
+    ): String {
+
+        val kay = collection.findOne(filter)
+        if (kay != null)
+            return ifFound.invoke(kay)
 
         val key = generateKeyFromStringWhile(string) {
             collection.contains(generateWhile.invoke(it))
         }
         collection.insertOne(objectToInsert.invoke(key))
 
-        return key*/
-
-        TODO("rebuild address generation")
+        return key
 
     }
 
-    private fun generateKeyFromStringWhile(string: String, condition: (currentKey: String) -> Boolean): String {
+    private suspend fun generateKeyFromStringWhile(
+        string: String,
+        condition: suspend (currentKey: String) -> Boolean
+    ): String {
 
-/*        var key = string.md5()
+        var key = string.md5()
 
         while (condition.invoke(key))
             key = (key + key.hashCode()).md5()
 
-        return key*/
-
-        TODO("rebuild address generation")
+        return key
 
     }
 
