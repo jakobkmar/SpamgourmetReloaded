@@ -17,6 +17,8 @@ inline fun HTML.pageWrapper(
         link("/static/styles/common.css", "stylesheet")
         
         head.invoke(this)
+
+        script { src = "/static/scripts/transitionsFix.js" }
     }
 
     body("no_periphery") {
