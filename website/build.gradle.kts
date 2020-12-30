@@ -40,6 +40,7 @@ kotlin {
         }
     }
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
         val jvmMain by getting {
