@@ -17,11 +17,17 @@ plugins {
 
     `common-build-script-kt`
 
-    application
+    // compilation
 
     kotlin("plugin.serialization") version "1.4.21"
 
     id("org.kravemir.gradle.sass") version "1.2.4"
+
+    // distribution
+
+    application
+
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 
 }
 
@@ -83,10 +89,15 @@ kotlin {
  * BUILD
  */
 
-
 // MAIN CLASS
 
-application.mainClass.set(main_class)
+application {
+    mainClass.set(main_class)
+
+    // until https://github.com/johnrengelman/shadow/issues/609
+    @Suppress("DEPRECATION")
+    mainClassName = main_class
+}
 
 // SCSS
 
