@@ -32,7 +32,9 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm {
+        withJava()
+    }
     sourceSets {
         val jvmTest by getting {
             dependencies {
