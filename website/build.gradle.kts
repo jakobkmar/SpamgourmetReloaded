@@ -94,9 +94,17 @@ kotlin {
 application {
     mainClass.set(main_class)
 
-    // until https://github.com/johnrengelman/shadow/issues/609
+    // until https://github.com/johnrengelman/shadow/issues/609 is fixed
     @Suppress("DEPRECATION")
     mainClassName = main_class
+}
+
+// SHADOW
+
+tasks.shadowJar {
+    archiveBaseName.set(project.name)
+    archiveVersion.set("")
+    archiveClassifier.set("")
 }
 
 // SCSS
