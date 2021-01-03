@@ -8,6 +8,7 @@ services:
       - "25:25"
     networks:
       - database
+      - postfix
 
   website:
     build: website/
@@ -17,6 +18,7 @@ services:
       - "8080:8080"
     networks:
       - database
+      - postfix
 
   mongodb:
     image: mongo:latest
@@ -27,9 +29,19 @@ services:
       - database
     command: mongod
 
+  postfix:
+    build: environment/postfix/
+    networks:
+      - postfix
+
 volumes:
-  - mongodb
-  - mongodb_config
+
+  mailserver_config:
+  website_config:
+
+  mongodb:
+  mongodb_config:
 
 networks:
-  - database
+  database:
+  postfix:
