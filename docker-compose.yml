@@ -1,0 +1,35 @@
+services:
+
+  mailserver:
+    build: mailserver/
+    depends_on:
+      - mongodb
+    ports:
+      - "25:25"
+    networks:
+      - database
+
+  website:
+    build: website/
+    depends_on:
+      - mongodb
+    ports:
+      - "8080:8080"
+    networks:
+      - database
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - database
+    command: mongod
+
+volumes:
+  - mongodb
+  - mongodb_config
+
+networks:
+  - database
