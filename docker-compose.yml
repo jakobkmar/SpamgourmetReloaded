@@ -4,6 +4,7 @@ services:
     build: mailserver/
     depends_on:
       - mongodb
+      - postfix
     ports:
       - "25:25"
     networks:
@@ -14,6 +15,7 @@ services:
     build: website/
     depends_on:
       - mongodb
+      - postfix
     ports:
       - "8080:8080"
     networks:
