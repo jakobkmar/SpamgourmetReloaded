@@ -2,7 +2,6 @@ package net.axay.spamgourmet.common.config
 
 import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.gson.jsonConfig
-import net.axay.spamgourmet.common.data.SMTPLoginInformation
 import net.axay.spamgourmet.common.logging.logInfo
 import java.io.File
 
