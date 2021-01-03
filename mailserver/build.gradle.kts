@@ -14,7 +14,11 @@ plugins {
 
     `common-build-script-kt`
 
+    // distribution
+
     application
+
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 
 }
 
@@ -23,7 +27,10 @@ plugins {
  */
 
 kotlin {
+
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
+
         val jvmMain by getting {
             dependencies {
 
@@ -42,14 +49,29 @@ kotlin {
 
             }
         }
+
     }
+
 }
 
 /*
  * BUILD
  */
 
-
 // MAIN CLASS
 
-application.mainClass.set(main_class)
+application {
+    mainClass.set(main_class)
+
+    // until https://github.com/johnrengelman/shadow/issues/609 is fixed
+    @Suppress("DEPRECATION")
+    mainClassName = main_class
+}
+
+// SHADOW
+
+tasks.shadowJar {
+    archiveBaseName.set(project.name)
+    archiveVersion.set("")
+    archiveClassifier.set("")
+}
