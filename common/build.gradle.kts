@@ -15,7 +15,7 @@ kotlin {
                 api("net.axay:BlueUtils:1.0.4")
 
                 // SERIALIZATION
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 
                 // KMONGO
                 api("org.litote.kmongo:kmongo-coroutine-core:4.2.3")
