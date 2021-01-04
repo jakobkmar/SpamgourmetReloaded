@@ -1,23 +1,27 @@
 services:
 
   mailserver:
-    build: mailserver/
+    image: bluefireoly/spamgourmet:mailserver
     depends_on:
       - mongodb
       - postfix
     ports:
       - "25:25"
+    volumes:
+      - mailserver_config:/config
     networks:
       - database
       - postfix
 
   website:
-    build: website/
+    image: bluefireoly/spamgourmet:website
     depends_on:
       - mongodb
       - postfix
     ports:
       - "8080:8080"
+    volumes:
+      - website_config:/config
     networks:
       - database
       - postfix
@@ -32,7 +36,7 @@ services:
     command: mongod
 
   postfix:
-    build: environment/postfix/
+    image: bluefireoly/spamgourmet:postfix
     networks:
       - postfix
 
