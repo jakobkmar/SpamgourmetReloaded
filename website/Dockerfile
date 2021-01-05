@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim-buster
+FROM openjdk:11-jre-slim
 
 ARG APPLICATION_USER=ktor
 
