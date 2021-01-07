@@ -37,7 +37,7 @@ On the clientside, the webserver serves javascript which was compiled from [Kotl
 ### Work in progress
 
 Currently, the service is still in development. It is planned to:
-   - use Docker
+   - create a dashboard
    - use Tailwind CSS for styling
 
 ### Naming
