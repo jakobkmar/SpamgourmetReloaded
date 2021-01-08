@@ -29,7 +29,7 @@ services:
       - postfix
 
   mongodb:
-    image: mongo:latest
+    image: mongo:4
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb
