@@ -8,9 +8,11 @@ services:
     ports:
       - "25:25"
     volumes:
-      - mailserver_config:/config
+      - ./configs:/app/config
+    links:
+      - mongodb
     networks:
-      - database
+      - mongodb
       - postfix
 
   website:
@@ -21,19 +23,18 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - website_config:/config
+      - ./configs:/app/config
     networks:
-      - database
+      - mongodb
       - postfix
 
   mongodb:
     image: mongo:latest
     volumes:
-      - mongodb:/data/db
+      - mongodb_data:/data/db
       - mongodb_config:/data/configdb
     networks:
-      - database
-    command: mongod
+      - mongodb
 
   postfix:
     image: bluefireoly/spamgourmet:postfix
@@ -41,13 +42,9 @@ services:
       - postfix
 
 volumes:
-
-  mailserver_config:
-  website_config:
-
-  mongodb:
+  mongodb_data:
   mongodb_config:
 
 networks:
-  database:
   postfix:
+  mongodb:
