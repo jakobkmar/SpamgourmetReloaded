@@ -4,7 +4,7 @@ package net.axay.spamgourmet.mailserver.mail
 
 import net.axay.spamgourmet.mailserver.main.Manager
 import net.axay.spamgourmet.mailserver.main.Constants
-import org.subethamail.smtp.util.EmailUtils
+import org.subethamail.smtp.internal.util.EmailUtils
 
 class SpamgourmetAddress(val fullAddress: String) {
 
