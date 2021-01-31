@@ -1,15 +1,17 @@
 package net.axay.spamgourmet.mailserver.main
 
 import net.axay.blueutils.database.mongodb.CoroutineMongoDB
+import net.axay.simplekotlinmail.delivery.MailerManager
+import net.axay.simplekotlinmail.server.smtpServer
+import net.axay.simplekotlinmail.server.start
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logInfo
 import net.axay.spamgourmet.common.logging.logMajorInfo
 import net.axay.spamgourmet.common.logging.logSuccess
 import net.axay.spamgourmet.mailserver.config.MailserverConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
-import net.axay.spamgourmet.mailserver.mail.MailHandler
-import net.axay.spamgourmet.mailserver.mail.SpamgourmetMailListener
-import org.subethamail.smtp.server.SMTPServer
+import net.axay.spamgourmet.mailserver.mail.MailerUtils
+import net.axay.spamgourmet.mailserver.mail.SpamgourmetEmail
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -23,9 +25,8 @@ object Manager {
 
     val configManager = MailserverConfigManager(File("."))
 
-    private val mailHandler = MailHandler()
-    private val smtpServer = SMTPServer(mailHandler).apply {
-        port = 25
+    private val smtpServer = smtpServer {
+        mailListener { SpamgourmetEmail.process(it) }
     }
 
     private val mongoDB = CoroutineMongoDB(configManager.databaseLoginInformation)
@@ -37,10 +38,8 @@ object Manager {
             logMajorInfo("Starting mailserver...")
 
             ConsoleListener.listen()
-
-            smtpServer.start()
-
-            mailHandler.register(SpamgourmetMailListener)
+            MailerUtils.setupMailer()
+            smtpServer.start(keepAlive = true)
 
             logSuccess("Started mailserver!")
 
@@ -49,11 +48,12 @@ object Manager {
         }
     }
 
-    fun stop() {
+    suspend fun stop() {
 
         logInfo("Stopping program...")
 
         smtpServer.stop()
+        MailerManager.shutdownMailers()
 
         logMajorInfo("Program stopped!")
 
