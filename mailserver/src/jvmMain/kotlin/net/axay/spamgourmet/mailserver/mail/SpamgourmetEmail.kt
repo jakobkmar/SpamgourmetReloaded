@@ -1,46 +1,53 @@
 package net.axay.spamgourmet.mailserver.mail
 
+import com.mongodb.client.model.ReturnDocument
 import kotlinx.coroutines.launch
 import net.axay.blueutils.database.mongodb.asKMongoId
-import net.axay.blueutils.database.mongodb.insertOneCatchDuplicate
+import net.axay.simplekotlinmail.delivery.send
+import net.axay.simplekotlinmail.email.copy
+import net.axay.simplekotlinmail.email.emailBuilder
+import net.axay.simplekotlinmail.server.exchange.IncomingMail
 import net.axay.spamgourmet.common.data.*
 import net.axay.spamgourmet.common.logging.logError
+import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logMajorInfo
 import net.axay.spamgourmet.common.logging.logWarning
 import net.axay.spamgourmet.common.main.COROUTINE_SCOPE
 import net.axay.spamgourmet.mailserver.main.Constants
 import net.axay.spamgourmet.mailserver.main.db
-import org.litote.kmongo.addToSet
-import org.litote.kmongo.eq
-import org.litote.kmongo.setValue
+import org.litote.kmongo.*
+import org.simplejavamail.api.email.Email
 import org.simplejavamail.api.email.EmailPopulatingBuilder
-import org.simplejavamail.converter.EmailConverter
-import org.simplejavamail.email.EmailBuilder
 import java.time.Instant
-import javax.mail.internet.MimeMessage
 
-abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
+abstract class SpamgourmetEmail(val email: Email) {
 
-    protected val email = EmailConverter.mimeMessageToEmail(mimeMessage)
+    init {
+        logMajorInfo("Received email:")
+        logInfo("from: ${email.fromRecipient?.address}")
+        logInfo("to: ${email.recipients.map { it.address }}")
+        logInfo("content: ${email.plainText}")
+    }
 
     abstract suspend fun process(recipient: SpamgourmetAddress)
 
     companion object {
 
-        fun process(recipients: List<String>, mimeMessage: MimeMessage) {
-            recipients.forEach {
+        fun process(mail: IncomingMail) {
+            mail.recipients.forEach {
                 COROUTINE_SCOPE.launch {
 
                     // get address type
                     val recipient = SpamgourmetAddress(it)
                     val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
                         SpamgourmetAddressType.SPAMGOURMET_USER_ADDRESS ->
-                            SpamgourmetSpamEmail(mimeMessage)
+                            SpamgourmetSpamEmail(mail.email)
                         SpamgourmetAddressType.SPAMGOURMET_ANSWER_ADDRESS ->
-                            SpamgourmetAnswerEmail(mimeMessage)
+                            SpamgourmetAnswerEmail(mail.email)
                         SpamgourmetAddressType.SPAMGOURMET_SPAM_BOUNCE_ADDRESS ->
-                            SpamgourmetSpamBounceEmail(mimeMessage)
+                            SpamgourmetSpamBounceEmail(mail.email)
                         SpamgourmetAddressType.SPAMGOURMET_ANSWER_BOUNCE_ADDRESS ->
-                            SpamgourmetAnswerBounceEmail(mimeMessage)
+                            SpamgourmetAnswerBounceEmail(mail.email)
                         else -> null
                     }
 
@@ -63,7 +70,7 @@ abstract class SpamgourmetEmail(mimeMessage: MimeMessage) {
 
 }
 
-class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+class SpamgourmetSpamEmail(email: Email) : SpamgourmetEmail(email) {
     override suspend fun process(recipient: SpamgourmetAddress) {
 
         // FORWARD TO USER
@@ -77,12 +84,13 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
         val userData = db.userData.findOne(UserData::username eq username) ?: return
 
         // load user address or create new one
-        db.userAddressData.insertOneCatchDuplicate(
-            UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt())
-        )
-        val userAddressData = db.userAddressData.findOne(
-            UserAddressData::address eq recipient.firstPart
-        ) ?: throw IllegalStateException("Could not find any UserAddressData document in the collection")
+        val userAddressData = db.userAddressData.findOneAndUpdate(
+            UserAddressData::address eq recipient.firstPart,
+            setValueOnInsert(
+                UserAddressData(recipient.firstPart, recipient.firstPartValues[1].toInt())
+            ),
+            findOneAndUpdateUpsert().returnDocument(ReturnDocument.AFTER)
+        ) ?: throw error("Could not find any UserAddressData document in the collection")
 
         // check uses left
         if (userAddressData.usesLeft <= 0) return
@@ -114,22 +122,18 @@ class SpamgourmetSpamEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMess
             true
         ).fullAddress
 
-        // create forward email
-        val emailBuilder = EmailBuilder.copying(email)
-
-        emailBuilder
-            .clearRecipients()
-            .withReplyTo(answerAddress)
-            .withBounceTo(bounceAddress)
-            .to(forwardToAddress)
-
-        // forward mail
-        MailSender.sendMail(emailBuilder.buildEmail())
+        // create forward email and send it
+        email.copy {
+            clearRecipients()
+            withReplyTo(answerAddress)
+            withBounceTo(bounceAddress)
+            to(forwardToAddress)
+        }.send()
 
     }
 }
 
-class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+class SpamgourmetAnswerEmail(email: Email) : SpamgourmetEmail(email) {
     override suspend fun process(recipient: SpamgourmetAddress) {
 
         // ANSWER TO SPAMMER
@@ -164,24 +168,20 @@ class SpamgourmetAnswerEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMe
 
         val answerAsAddress = SpamgourmetAddress(answerAddressData.answerAsAddress, true).fullAddress
 
-        // create answer email
-        val emailBuilder = EmailBuilder.copying(email)
-
-        emailBuilder
-            .clearSenderData()
-            .clearRecipients()
-            .from(answerAsAddress)
-            .withReplyTo(answerAsAddress)
-            .withBounceTo(bounceAddress)
-            .to(answerAddressData.answerToAddress)
-
-        // send answer mail
-        MailSender.sendMail(emailBuilder.buildEmail())
+        // create answer email and send it
+        email.copy {
+            clearSenderData()
+            clearRecipients()
+            from(answerAsAddress)
+            withReplyTo(answerAsAddress)
+            withBounceTo(bounceAddress)
+            to(answerAddressData.answerToAddress)
+        }.send()
 
     }
 }
 
-class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+class SpamgourmetSpamBounceEmail(email: Email) : SpamgourmetEmail(email) {
     override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE SPAM BOUNCE
@@ -216,7 +216,7 @@ class SpamgourmetSpamBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mi
     }
 }
 
-class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(mimeMessage) {
+class SpamgourmetAnswerBounceEmail(email: Email) : SpamgourmetEmail(email) {
     override suspend fun process(recipient: SpamgourmetAddress) {
 
         // HANDLE ANSWER BOUNCE
@@ -237,17 +237,16 @@ class SpamgourmetAnswerBounceEmail(mimeMessage: MimeMessage) : SpamgourmetEmail(
 
         // inform user about bounce to answer
 
-        // create mail info about bounce
-        val bounceInformationEmail = EmailBuilder.startingBlank()
-            .from(SpamgourmetAddress("bounce-informer", true).fullAddress)
-            .to(userData.realAddress)
-            .withBounceTo("<>")
-            .withReplyTo(SpamgourmetAddress(Constants.NO_REPLY_ADDRESS_KEY, true).fullAddress)
-            .withSubject("Bounce information")
-            .withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
-            .buildEmail()
-
-        MailSender.sendMail(bounceInformationEmail)
+        // create mail to inform about bounce and send it
+        emailBuilder {
+            from(SpamgourmetAddress("bounce-informer", true).fullAddress)
+            to(userData.realAddress)
+            withBounceTo("<>")
+            withReplyTo(SpamgourmetAddress(Constants.NO_REPLY_ADDRESS_KEY, true).fullAddress)
+            withSubject("Bounce information")
+            withPlainText("Your answer to $fromAddress got \"answered\" with a bounce.")
+            buildEmail()
+        }.send()
 
     }
 }
