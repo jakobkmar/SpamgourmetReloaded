@@ -36,13 +36,10 @@ kotlin {
 
                 implementation(project(":common"))
 
-                // SIMPLE JAVA MAIL
-                implementation("org.simplejavamail:simple-java-mail:6.4.4")
-                implementation("org.simplejavamail:batch-module:6.4.4")
-                implementation("org.simplejavamail:smime-module:6.4.4")
-
-                // SUBETHA SMTP
-                implementation("org.subethamail:subethasmtp:3.1.7")
+                // SIMPLE KOTLIN MAIL
+                implementation("net.axay:simplekotlinmail-core:1.3.0")
+                implementation("net.axay:simplekotlinmail-server:1.3.0")
+                implementation("net.axay:simplekotlinmail-client:1.3.0")
 
                 // LOGGER
                 implementation("org.slf4j:slf4j-simple:1.7.30")
