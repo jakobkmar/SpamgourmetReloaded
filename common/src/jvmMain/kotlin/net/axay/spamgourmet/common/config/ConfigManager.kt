@@ -11,7 +11,7 @@ open class ConfigManager(applicationFolder: File) {
     protected inner class ConfigFile(path: String) : File(configFolder, path)
 
     init {
-        logInfo("Config folder: ${configFolder.absolutePath}")
+        logInfo("Config folder: ${configFolder.canonicalPath}")
     }
 
     val databaseLoginInformation by jsonConfig(ConfigFile("databaseLoginInformation.json")) {
