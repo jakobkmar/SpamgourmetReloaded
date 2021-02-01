@@ -1,5 +1,6 @@
 package net.axay.spamgourmet.mailserver.main
 
+import kotlinx.coroutines.runBlocking
 import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.simplekotlinmail.delivery.MailerManager
 import net.axay.simplekotlinmail.server.smtpServer
@@ -13,7 +14,7 @@ import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailerUtils
 import net.axay.spamgourmet.mailserver.mail.SpamgourmetEmail
 import java.io.File
-import kotlin.system.exitProcess
+import kotlin.concurrent.thread
 
 fun main() {
     Manager.start()
@@ -33,31 +34,29 @@ object Manager {
     val database = Database(mongoDB)
 
     fun start() {
-        try {
 
-            logMajorInfo("Starting mailserver...")
+        // add shutdown hook
+        Runtime.getRuntime().addShutdownHook(thread(start = false) { stop() })
+        // listen to console input
+        ConsoleListener.listen()
 
-            ConsoleListener.listen()
-            MailerUtils.setupMailer()
-            smtpServer.start(keepAlive = true)
+        logMajorInfo("Starting mailserver...")
 
-            logSuccess("Started mailserver!")
+        MailerUtils.setupMailer()
+        smtpServer.start(keepAlive = true)
 
-        } catch (exc: Exception) {
-            exc.printStackTrace()
-        }
+        logSuccess("Started mailserver!")
+
     }
 
-    suspend fun stop() {
+    private fun stop() = runBlocking {
 
-        logInfo("Stopping program...")
+        logInfo("Stopping mailserver...")
 
         smtpServer.stop()
         MailerManager.shutdownMailers()
 
-        logMajorInfo("Program stopped!")
-
-        exitProcess(1)
+        logMajorInfo("Mailserver stopped!")
 
     }
 
