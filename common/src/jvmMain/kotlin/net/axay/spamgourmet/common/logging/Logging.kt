@@ -8,7 +8,7 @@ import com.github.ajalt.mordant.terminal.TextColors.*
 val terminal = Terminal()
 
 fun log(message: Any?, prefix: String = "") {
-    terminal.println(black.bg("$prefix ${gray(">>")} $message"))
+    terminal.println(black.bg("$prefix ${gray("(${Thread.currentThread().name}) >>")} $message"))
 }
 
 fun logInfo(message: Any?) =
