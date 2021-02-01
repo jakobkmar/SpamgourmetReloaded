@@ -37,7 +37,7 @@ fun logWarning(message: Any?) =
 fun logError(message: Any?) =
     log(renderMessage(message, red), terminal.render("ERROR", TextStyle(brightRed, bold = true)))
 
-fun Throwable.logThis() {
+fun Throwable.logThis(severe: Boolean = true) {
     val string = stackTraceToString()
     val message = string.lines().first()
     val splitMessage = message.split(": ")
@@ -45,5 +45,6 @@ fun Throwable.logThis() {
         underline(splitMessage.first().removePrefix("java.lang.")) + ": ${
             splitMessage.takeLast(splitMessage.lastIndex).joinToString(": ")
         }"
-    logError("$formattedMessage${terminal.renderMarkdown(string.removePrefix(message))}")
+    val finalMessage = "$formattedMessage${terminal.renderMarkdown(string.removePrefix(message))}"
+    if (severe) logError(finalMessage) else logWarning(finalMessage)
 }
