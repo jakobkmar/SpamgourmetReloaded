@@ -4,9 +4,8 @@ import net.axay.blueutils.database.mongodb.CoroutineMongoDB
 import net.axay.spamgourmet.common.config.ConfigManager
 import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logMajorInfo
-import java.io.File
 
-val configManager = ConfigManager(File("."))
+val configManager = ConfigManager()
 val mongoDB = CoroutineMongoDB(configManager.databaseLoginInformation)
 val db = Database(mongoDB)
 
