@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 class DomainInformation(
     val mainAddressDomain: String,
-    val alternativeAddressDomains: Collection<String> = LinkedHashSet()
+    val alternativeAddressDomains: Set<String> = LinkedHashSet()
 )
