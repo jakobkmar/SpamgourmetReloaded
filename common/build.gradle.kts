@@ -12,7 +12,7 @@ kotlin {
             dependencies {
 
                 // BLUEUTILS
-                api("net.axay:BlueUtils:1.0.6")
+                api("net.axay:BlueUtils:1.0.9")
 
                 // SERIALIZATION
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
@@ -23,6 +23,9 @@ kotlin {
 
                 // MORDANT
                 api("com.github.ajalt.mordant:mordant:2.0.0-alpha1")
+
+                // CONFIG4K
+                api("io.github.config4k:config4k:0.4.2")
 
             }
         }
