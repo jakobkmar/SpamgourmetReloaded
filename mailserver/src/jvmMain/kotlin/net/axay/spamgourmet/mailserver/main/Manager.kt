@@ -23,13 +23,11 @@ val db get() = Manager.database
 
 object Manager {
 
-    val configManager = MailserverConfigManager()
-
     private val smtpServer = smtpServer {
         mailListener { SpamgourmetEmail.process(it) }
     }
 
-    private val mongoDB = CoroutineMongoDB(configManager.databaseLoginInformation)
+    private val mongoDB = CoroutineMongoDB(MailserverConfigManager.databaseLoginInformation)
     val database = Database(mongoDB)
 
     fun start() {

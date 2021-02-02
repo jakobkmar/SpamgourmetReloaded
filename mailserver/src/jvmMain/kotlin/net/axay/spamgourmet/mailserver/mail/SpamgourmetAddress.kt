@@ -2,14 +2,14 @@
 
 package net.axay.spamgourmet.mailserver.mail
 
-import net.axay.spamgourmet.mailserver.main.Manager
+import net.axay.spamgourmet.mailserver.config.MailserverConfigManager
 import net.axay.spamgourmet.mailserver.main.Constants
 import org.subethamail.smtp.internal.util.EmailUtils
 
 class SpamgourmetAddress(val fullAddress: String) {
 
     constructor(address: String, isOnlyFirstPart: Boolean) : this(kotlin.run {
-        if (!isOnlyFirstPart) address else "$address@${Manager.configManager.domainInformation.mainAddressDomain}"
+        if (!isOnlyFirstPart) address else "$address@${MailserverConfigManager.domainInformation.mainAddressDomain}"
     })
 
     val splitParts by lazy { fullAddress.split('@') }
@@ -19,7 +19,7 @@ class SpamgourmetAddress(val fullAddress: String) {
     val firstPartValues by lazy { firstPart.split('.') }
 
     val isValid by lazy { splitParts.size == 2 && EmailUtils.isValidEmailAddress(fullAddress) }
-    val isSpamgourmetAddress by lazy { secondPart == Manager.configManager.domainInformation.mainAddressDomain }
+    val isSpamgourmetAddress by lazy { secondPart == MailserverConfigManager.domainInformation.mainAddressDomain }
 
     val type by lazy {
 
