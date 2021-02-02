@@ -13,7 +13,6 @@ import net.axay.spamgourmet.mailserver.config.MailserverConfigManager
 import net.axay.spamgourmet.mailserver.console.ConsoleListener
 import net.axay.spamgourmet.mailserver.mail.MailerUtils
 import net.axay.spamgourmet.mailserver.mail.SpamgourmetEmail
-import java.io.File
 import kotlin.concurrent.thread
 
 fun main() {
@@ -24,7 +23,7 @@ val db get() = Manager.database
 
 object Manager {
 
-    val configManager = MailserverConfigManager(File("."))
+    val configManager = MailserverConfigManager()
 
     private val smtpServer = smtpServer {
         mailListener { SpamgourmetEmail.process(it) }
