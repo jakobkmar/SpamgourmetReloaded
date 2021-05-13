@@ -1,7 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.model.CountOptions
-import net.axay.blueutils.database.mongodb.contains
 import net.axay.spamgourmet.common.data.AnswerAddressData
 import net.axay.spamgourmet.common.data.AnswerAddressSettings
 import net.axay.spamgourmet.common.data.AnswerBounceAddressData
