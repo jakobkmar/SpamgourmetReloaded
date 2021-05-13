@@ -2,18 +2,15 @@ package net.axay.spamgourmet.mailserver.mail
 
 import net.axay.simplekotlinmail.delivery.MailerManager
 import net.axay.simplekotlinmail.delivery.mailerBuilder
-import net.axay.spamgourmet.mailserver.config.MailserverConfigManager
+import net.axay.spamgourmet.mailserver.config.MailserverEnv
 
 object MailerUtils {
-
     fun setupMailer() {
-        val smtpInfo = MailserverConfigManager.smtpLoginInformation
         MailerManager.defaultMailer = mailerBuilder(
-            smtpInfo.host,
-            smtpInfo.port,
-            smtpInfo.username,
-            smtpInfo.password
+            MailserverEnv.smtpHost,
+            MailserverEnv.smtpPort,
+            MailserverEnv.smtpUsername,
+            MailserverEnv.smtpPassword
         )
     }
-
 }
