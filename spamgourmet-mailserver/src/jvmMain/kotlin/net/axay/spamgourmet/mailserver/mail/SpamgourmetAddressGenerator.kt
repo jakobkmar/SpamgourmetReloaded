@@ -1,5 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
+import com.mongodb.client.model.CountOptions
 import net.axay.blueutils.database.mongodb.contains
 import net.axay.spamgourmet.common.data.AnswerAddressData
 import net.axay.spamgourmet.common.data.AnswerAddressSettings
@@ -102,7 +103,7 @@ object SpamgourmetAddressGenerator {
             return ifFound.invoke(kay)
 
         val key = generateKeyFromStringWhile(string) {
-            collection.contains(generateWhile.invoke(it))
+            collection.countDocuments(generateWhile.invoke(it), CountOptions().limit(1)) >= 1
         }
         collection.insertOne(objectToInsert.invoke(key))
 
