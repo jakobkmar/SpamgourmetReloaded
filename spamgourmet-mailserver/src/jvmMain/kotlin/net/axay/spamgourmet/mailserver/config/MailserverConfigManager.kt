@@ -1,16 +1,12 @@
 package net.axay.spamgourmet.mailserver.config
 
-import net.axay.blueutils.hocon.hoconConfig
-import net.axay.spamgourmet.common.config.ConfigManager
-import net.axay.spamgourmet.common.data.DomainInformation
-import net.axay.spamgourmet.common.data.SMTPLoginInformation
+import java.lang.System.getenv
 
-object MailserverConfigManager : ConfigManager() {
-    val smtpLoginInformation by hoconConfig(ConfigFile("smtpLoginInformation.conf")) {
-        SMTPLoginInformation("notset", 12345, "notset", "notset")
-    }
+object MailserverEnv {
+    val smtpHost = getenv("SMTP_HOST") ?: "localhost"
+    val smtpPort = getenv("SMTP_PORT")?.toInt() ?: 25
+    val smtpUsername = getenv("SMTP_USERNAME") ?: "notset"
+    val smtpPassword = getenv("SMTP_PASSWORD") ?: "notset"
 
-    val domainInformation by hoconConfig(ConfigFile("domainInformation.conf")) {
-        DomainInformation("notset")
-    }
+    val addressDomain = getenv("SG_ADDRESS_DOMAIN") ?: "axay.net"
 }
