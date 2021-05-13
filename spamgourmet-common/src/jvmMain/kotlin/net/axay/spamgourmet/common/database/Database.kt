@@ -1,32 +1,36 @@
 package net.axay.spamgourmet.common.database
 
-import net.axay.blueutils.database.mongodb.CoroutineMongoDB
+import com.mongodb.MongoClientSettings
+import com.mongodb.ServerAddress
 import net.axay.spamgourmet.common.data.*
-import net.axay.spamgourmet.common.main.Values
+import net.axay.spamgourmet.common.main.Env
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
 
-class Database(mongoDB: CoroutineMongoDB) {
+val db = Database
 
-    val userData =
-        mongoDB.getCollectionOrCreate<UserData>("${Values.DATA_PREFIX}user_data")
-    val userLoginData =
-        mongoDB.getCollectionOrCreate<UserLoginData>("${Values.DATA_PREFIX}user_login_data")
+object Database {
+    private val client = KMongo.createClient(
+        MongoClientSettings.builder()
+            .applyToClusterSettings {
+                it.hosts(listOf(ServerAddress(Env.dbHost, Env.dbPort)))
+            }
+            .build()
+    ).coroutine
 
-    val userAddressData =
-        mongoDB.getCollectionOrCreate<UserAddressData>("${Values.DATA_PREFIX}user_address_data")
-    val answerAddressData =
-        mongoDB.getCollectionOrCreate<AnswerAddressData>("${Values.DATA_PREFIX}answer_address_data")
+    private val database = client.getDatabase(Env.dbDatabase)
 
-    val bounceData =
-        mongoDB.getCollectionOrCreate<BounceData>("${Values.DATA_PREFIX}bounce_data")
-    val userBounceData =
-        mongoDB.getCollectionOrCreate<UserBounceData>("${Values.DATA_PREFIX}user_bounce_data")
+    val userData = database.getCollection<UserData>()
+    val userLoginData = database.getCollection<UserLoginData>()
 
-    val answerBounceAddressData =
-        mongoDB.getCollectionOrCreate<AnswerBounceAddressData>("${Values.DATA_PREFIX}answer_bounce_address_data")
-    val spamBounceAddressData =
-        mongoDB.getCollectionOrCreate<SpamBounceAddressData>("${Values.DATA_PREFIX}spam_bounce_address_data")
+    val userAddressData = database.getCollection<UserAddressData>()
+    val answerAddressData = database.getCollection<AnswerAddressData>()
 
-    val sessionData =
-        mongoDB.getCollectionOrCreate<SessionData>("${Values.DATA_PREFIX}session_data")
+    val bounceData = database.getCollection<BounceData>()
+    val userBounceData = database.getCollection<UserBounceData>()
 
+    val answerBounceAddressData = database.getCollection<AnswerBounceAddressData>()
+    val spamBounceAddressData = database.getCollection<SpamBounceAddressData>()
+
+    val sessionData = database.getCollection<SessionData>()
 }
