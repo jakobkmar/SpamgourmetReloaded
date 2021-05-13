@@ -2,23 +2,25 @@ package net.axay.spamgourmet.mailserver.mail
 
 import com.mongodb.client.model.ReturnDocument
 import kotlinx.coroutines.launch
-import net.axay.blueutils.database.mongodb.asKMongoId
 import net.axay.simplekotlinmail.delivery.send
 import net.axay.simplekotlinmail.email.copy
 import net.axay.simplekotlinmail.email.emailBuilder
 import net.axay.simplekotlinmail.server.exchange.IncomingMail
 import net.axay.spamgourmet.common.data.*
-import net.axay.spamgourmet.common.logging.*
+import net.axay.spamgourmet.common.database.db
+import net.axay.spamgourmet.common.logging.logError
+import net.axay.spamgourmet.common.logging.logInfo
+import net.axay.spamgourmet.common.logging.logMajorInfo
+import net.axay.spamgourmet.common.logging.logWarning
 import net.axay.spamgourmet.common.main.COROUTINE_SCOPE
 import net.axay.spamgourmet.mailserver.main.Constants
-import net.axay.spamgourmet.mailserver.main.db
 import org.litote.kmongo.*
+import org.litote.kmongo.id.WrappedObjectId
 import org.simplejavamail.api.email.Email
 import org.simplejavamail.api.email.EmailPopulatingBuilder
 import java.time.Instant
 
 abstract class SpamgourmetEmail(val email: Email) {
-
     init {
         logMajorInfo("Received email:")
         logInfo("from: ${email.fromRecipient?.address}")
@@ -29,11 +31,9 @@ abstract class SpamgourmetEmail(val email: Email) {
     abstract suspend fun process(recipient: SpamgourmetAddress)
 
     companion object {
-
         fun process(mail: IncomingMail) {
             mail.recipients.forEach {
                 COROUTINE_SCOPE.launch {
-
                     // get address type
                     val recipient = SpamgourmetAddress(it)
                     val spamgourmetEmail = when (SpamgourmetAddressType.typeOf(null, recipient).recipientType) {
@@ -53,18 +53,15 @@ abstract class SpamgourmetEmail(val email: Email) {
                         spamgourmetEmail?.process(recipient)
                     } catch (exc: Exception) {
                         logError("An error occured while processing an email:")
-                        exc.logThis(true)
+                        exc.printStackTrace()
                     } catch (throwable: Throwable) {
                         logWarning("Something went wrong while processing an email:")
-                        throwable.logThis(false)
+                        throwable.printStackTrace()
                     }
-
                 }
             }
         }
-
     }
-
 }
 
 class SpamgourmetSpamEmail(email: Email) : SpamgourmetEmail(email) {
@@ -202,7 +199,8 @@ class SpamgourmetSpamBounceEmail(email: Email) : SpamgourmetEmail(email) {
                 to = recipient.fullAddress,
                 subject = email.subject ?: ""
             )
-        ).insertedId?.asKMongoId<BounceData>()
+        ).insertedId?.let { WrappedObjectId<BounceData>(it.asObjectId().value) }
+
         if (id != null) {
             db.userBounceData.updateOne(
                 UserBounceData::username eq bounceAddressData.informUser,
