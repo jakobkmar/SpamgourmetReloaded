@@ -1,7 +1,6 @@
 package net.axay.spamgourmet.mailserver.mail
 
 enum class SpamgourmetAddressType {
-
     // the address does not belong to the spamgourmet system
     SPAMMER,
     USER,
@@ -16,9 +15,7 @@ enum class SpamgourmetAddressType {
     INVALID, UNKNOWN;
 
     companion object {
-
         fun typeOf(sender: SpamgourmetAddress?, recipient: SpamgourmetAddress): SpamgourmetAddressTypePair {
-
             val recipientType = if (recipient.isValid) {
                 if (recipient.isSpamgourmetAddress) {
                     recipient.type
@@ -34,11 +31,8 @@ enum class SpamgourmetAddressType {
             } else INVALID
 
             return SpamgourmetAddressTypePair(senderType, recipientType)
-
         }
-
     }
 
     class SpamgourmetAddressTypePair(val senderType: SpamgourmetAddressType, val recipientType: SpamgourmetAddressType)
-
 }

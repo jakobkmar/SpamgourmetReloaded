@@ -5,8 +5,8 @@ import net.axay.spamgourmet.common.data.AnswerAddressData
 import net.axay.spamgourmet.common.data.AnswerAddressSettings
 import net.axay.spamgourmet.common.data.AnswerBounceAddressData
 import net.axay.spamgourmet.common.data.SpamBounceAddressData
+import net.axay.spamgourmet.common.database.db
 import net.axay.spamgourmet.mailserver.main.Constants
-import net.axay.spamgourmet.mailserver.main.db
 import org.bson.conversions.Bson
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineCollection
@@ -15,7 +15,6 @@ import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter
 
 object SpamgourmetAddressGenerator {
-
     suspend fun generateAnswerAddress(
         username: String,
         answerAsAddress: String,
@@ -132,5 +131,4 @@ object SpamgourmetAddressGenerator {
             return DatatypeConverter.printHexBinary(it.digest())
         }
     }
-
 }

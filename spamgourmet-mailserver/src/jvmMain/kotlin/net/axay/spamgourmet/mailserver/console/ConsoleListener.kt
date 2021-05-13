@@ -6,9 +6,7 @@ import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
 object ConsoleListener {
-
     fun listen() {
-
         GlobalScope.launch(Dispatchers.IO) {
             while (true) {
                 val input = readLine() ?: continue
@@ -19,7 +17,5 @@ object ConsoleListener {
                 }
             }
         }
-
     }
-
 }
