@@ -1,8 +1,6 @@
 package net.axay.spamgourmet.website.main
 
 import net.axay.blueutils.database.mongodb.CoroutineMongoDB
-import net.axay.spamgourmet.common.config.ConfigManager
-import net.axay.spamgourmet.common.database.Database
 import net.axay.spamgourmet.common.logging.logMajorInfo
 
 val configManager = ConfigManager()
