@@ -1,5 +1,7 @@
 rootProject.name = "SpamgourmetReloaded"
 
-include("common")
-include("mailserver")
-include("website")
+val projectPrefix = "spamgourmet-"
+
+include("${projectPrefix}common")
+include("${projectPrefix}mailserver")
+include("${projectPrefix}website")

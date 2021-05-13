@@ -3,9 +3,11 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation(kotlin("gradle-plugin", "1.4.21"))
+    implementation(kotlin("gradle-plugin", "1.5.0"))
+    implementation("gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0")
 }
